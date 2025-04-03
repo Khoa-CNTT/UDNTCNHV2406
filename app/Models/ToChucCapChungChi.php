@@ -11,7 +11,6 @@ class ToChucCapChungChi extends Model
         'email',
         'password',
         'ten_to_chuc',
-        'slug_ten',
         'hotline',
         'dia_chi',
         'ho_ten_nguoi_dai_dien',

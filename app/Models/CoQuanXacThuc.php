@@ -12,7 +12,6 @@ class CoQuanXacThuc extends Model
         'email',
         'password',
         'ten_co_quan',
-        'slug_ten',
         'hotline',
         'dia_chi',
         'ho_ten_nguoi_dai_dien',

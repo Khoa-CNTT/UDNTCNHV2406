@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('ten_to_ chuc');
-            $table->string('slug_ten');
             $table->string('hotline');
             $table->string('dia_chi');
             $table->string('ho_ten_nguoi_dai_dien');

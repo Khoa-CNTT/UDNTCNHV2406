@@ -11,7 +11,6 @@ class HocVien extends Model
         'email',
         'password',
         'ho_ten',
-        'slug_ten',
         'ngay_sinh',
         'gioi_tinh',
         'so_cccd',
