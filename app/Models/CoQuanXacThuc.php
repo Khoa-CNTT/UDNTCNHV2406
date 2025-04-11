@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class CoQuanXacThuc extends Model
+class CoQuanXacThuc extends Authenticatable
 {
+    use HasApiTokens;
     protected $table = 'co_quan_xac_thucs';
-
     protected $fillable = [
         'email',
         'password',

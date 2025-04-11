@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class HocVien extends Model
+class HocVien extends Authenticatable
 {
+    use HasApiTokens;
     protected $table = "admims";
     protected $fillable = [
         'email',
