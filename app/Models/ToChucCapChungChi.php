@@ -2,15 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Sanctum\HasApiTokens;
 
-class ToChucCapChungChi extends Authenticatable
+class ToChucCapChungChi extends Model
 {
-    use HasApiTokens;
-    protected $table = "admims";
+    protected $table = "to_chuc_cap_chung_chis";
     protected $fillable = [
         'email',
         'password',
@@ -21,6 +17,7 @@ class ToChucCapChungChi extends Authenticatable
         'so_cccd',
         'sdt_nguoi_dai_dien',
         'email_nguoi_dai_dien',
+        'hinh_anh',
         'is_duyet',
     ];
 }

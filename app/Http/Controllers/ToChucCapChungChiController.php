@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ToChucCapChungChi;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class ToChucCapChungChiController extends Controller
 {
     public function dangKy(Request $request)
@@ -28,30 +27,47 @@ class ToChucCapChungChiController extends Controller
             'status'   =>   true
         ]);
     }
-    public function dangNhap(Request $request){
-        $check = Auth::guard('co_quan_xac_thuc')->attempt([
-            'email'     =>  $request->email,
-            'password'  =>  $request->password
+    public function dangNhap(Request $request)
+    {
+        $check = Auth::guard('to_chuc_cap_chung_chi')->attempt([
+            'email' => $request->email,
+            'password' => $request->password,
         ]);
-        if($check){
-            $user = Auth::guard('co_quan_xac_thuc')->user();
+        if ($check) {
+            $user = Auth::guard('to_chuc_cap_chung_chi')->user();
             return response()->json([
-                'status' => true,
-                'message' => "Đăng Nhập Thành Công",
-                'chia_khoa' =>$user->createToken('ma_so_bi_mat')->plainTextToken,
+                'message'  =>   'Đăng nhập thành công.',
+                'status'   =>   true,
+                'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_to_chuc')->plainTextToken,
+                'ten_to_chuc' =>   $user->ten_to_chuc
             ]);
-        }else{
+        } else {
             return response()->json([
-                'status' => false,
-                'message' => "Sai Tài Khoản Hoặc Mật Khẩu"
+                'message'  =>   'Sai thông tin đăng nhập.',
+                'status'   =>   false,
             ]);
         }
     }
     public function getData()
     {
-        $dulieu = ToChucCapChungChi::get();
+        $data = ToChucCapChungChi::select()->get();
         return response()->json([
-            'data' => $dulieu
+            'data' => $data,
         ]);
+    }
+    public function kiemTraChiaKhoa()
+    {
+        $check = $this->isUserToChucCapChungChi();
+        if ($check) {
+            return response()->json([
+                'status'   =>   true,
+                'message'  =>   '',
+            ]);
+        } else {
+            return response()->json([
+                'status'   =>   false,
+                'message'  =>   'Yêu Cầu Đăng Nhập',
+            ]);
+        }
     }
 }

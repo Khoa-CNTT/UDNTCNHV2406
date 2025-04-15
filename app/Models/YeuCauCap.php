@@ -14,5 +14,4 @@ class YeuCauCap extends Model
         'tinh_trang',
         'id_chung_chi',
     ];
-
 }

@@ -13,5 +13,4 @@ class YeuCauXacThuc extends Model
         'tinh_trang',
         'id_chung_chi',
     ];
-
 }

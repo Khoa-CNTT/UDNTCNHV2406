@@ -2,19 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance as Middleware;
 
-class PreventRequestsDuringMaintenance
+class PreventRequestsDuringMaintenance extends Middleware
 {
     /**
-     * Handle an incoming request.
+     * The URIs that should be reachable while maintenance mode is enabled.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @var array<int, string>
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        return $next($request);
-    }
+    protected $except = [
+        //
+    ];
 }

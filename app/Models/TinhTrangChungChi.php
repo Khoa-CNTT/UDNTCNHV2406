@@ -9,8 +9,6 @@ class TinhTrangChungChi extends Model
     protected $table = 'tinh_trang_chung_chis';
     protected $fillable = [
         'tinh_trang',
-        'mota'
+        'mo_ta'
     ];
-
-    
 }

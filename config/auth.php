@@ -58,7 +58,6 @@ return [
         ],
     ],
 
-
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -97,6 +96,7 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\ToChucCapChungChi::class,
         ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

@@ -30,27 +30,43 @@ class HocVienController extends Controller
     {
         $check = Auth::guard('hoc_vien')->attempt([
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
         ]);
         if ($check) {
             $user = Auth::guard('hoc_vien')->user();
             return response()->json([
-                'status' => true,
-                'message' => "Đăng Nhập Thành Công",
-                'chia_khoa' => $user->createToken('ma_so_bi_mat')->plainTextToken,
+                'message'  =>   'Đăng nhập thành công.',
+                'status'   =>   true,
+                'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_hoc_vien')->plainTextToken,
+                'ten_hoc_vien' =>   $user->ho_ten
             ]);
         } else {
             return response()->json([
-                'status' => false,
-                'message' => "Sai Tài Khoản Hoặc Mật Khẩu",
+                'message'  =>   'Sai thông tin đăng nhập.',
+                'status'   =>   false,
             ]);
         }
     }
     public function getData()
     {
-        $dulieu = HocVien::get();
+        $data = HocVien::select()->get();
         return response()->json([
-            'data' => $dulieu
+            'data' => $data,
         ]);
+    }
+    public function kiemTraChiaKhoa()
+    {
+        $check = $this->isUserHocVien();
+        if ($check) {
+            return response()->json([
+                'status'   =>   true,
+                'message'  =>   '',
+            ]);
+        } else {
+            return response()->json([
+                'status'   =>   false,
+                'message'  =>   'Yêu Cầu Đăng Nhập',
+            ]);
+        }
     }
 }

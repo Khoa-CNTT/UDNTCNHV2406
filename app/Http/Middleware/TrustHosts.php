@@ -2,19 +2,19 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Middleware\TrustHosts as Middleware;
 
-class TrustHosts
+class TrustHosts extends Middleware
 {
     /**
-     * Handle an incoming request.
+     * Get the host patterns that should be trusted.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @return array<int, string|null>
      */
-    public function handle(Request $request, Closure $next): Response
+    public function hosts(): array
     {
-        return $next($request);
+        return [
+            $this->allSubdomainsOfApplicationUrl(),
+        ];
     }
 }

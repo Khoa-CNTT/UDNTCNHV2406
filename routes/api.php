@@ -8,46 +8,36 @@ use App\Http\Controllers\HocVienController;
 use App\Http\Controllers\LichSuGiaoDichController;
 use App\Http\Controllers\ThongKeController;
 use App\Http\Controllers\ToChucCapChungChiController;
-use App\Models\BaoCao;
-use App\Models\CoQuanXacThuc;
-use App\Models\ToChucCapChungChi;
-use Illuminate\Routing\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 
-//Admin
-Route::post('/admin/dang-ky', [AdminController::class,'dangKy']);
+
+Route::post('/admin/dang-ky',[AdminController::class,'dangKy']);
 Route::post('/admin/dang-nhap', [AdminController::class,'dangNhap']);
+Route::post('/admin/kiem-tra-chia-khoa', [AdminController::class,'kiemTraChiaKhoa']);
 
 
-//Học viên
+
 Route::post('/hoc-vien/dang-ky', [HocVienController::class,'dangKy']);
 Route::post('/hoc-vien/dang-nhap', [HocVienController::class,'dangNhap']);
 Route::get('/hoc-vien/data', [HocVienController::class,'getData']);
+Route::post('/hoc-vien/kiem-tra-chia-khoa', [HocVienController::class,'kiemTraChiaKhoa']);
 
 
-//Cơ quan xác thực
+
 Route::post('/co-quan/dang-ky', [CoQuanXacThucController::class,'dangKy']);
 Route::post('/co-quan/dang-nhap', [CoQuanXacThucController::class,'dangNhap']);
 Route::get('/co-quan/data', [CoQuanXacThucController::class,'getData']);
+Route::post('/co-quan/kiem-tra-chia-khoa', [CoQuanXacThucController::class,'kiemTraChiaKhoa']);
 
 
-//Tổ chức cấp chứng chỉ
+
 Route::post('/to-chuc/dang-ky', [ToChucCapChungChiController::class,'dangKy']);
 Route::post('/to-chuc/dang-nhap', [ToChucCapChungChiController::class,'dangNhap']);
 Route::get('/to-chuc/data', [ToChucCapChungChiController::class,'getData']);
-
-//Lịch sử giao dịch
-Route::get('/lich-su-giao-dich/data', [LichSuGiaoDichController::class,'getData']);
+Route::post('/to-chuc/kiem-tra-chia-khoa', [ToChucCapChungChiController::class,'kiemTraChiaKhoa']);
 
 
-//Chứng Chỉ
-Route::get('/chung-chi/data', [ChungChiController::class,'getData']);
 
-
-//Thống Kê
-Route::get('/thong-ke/data', [ThongKeController::class,'getData']);
-
-//Báo cáo
-Route::get('/bao-cao/data', [BaoCaoController::class,'getData']);
-
-
+Route::get('/admin/lich-su-giao-dich', [LichSuGiaoDichController::class,'adminGetLSGiaoDich']);

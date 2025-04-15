@@ -7,11 +7,59 @@ use Illuminate\Http\Request;
 
 class BaoCaoController extends Controller
 {
-    public function getData()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $dulieu = BaoCao::get();
-        return response()->json([
-            'data' => $dulieu
-        ]);
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(BaoCao $baoCao)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(BaoCao $baoCao)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, BaoCao $baoCao)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(BaoCao $baoCao)
+    {
+        //
     }
 }

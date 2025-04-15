@@ -17,15 +17,14 @@ return new class extends Migration
             $table->integer('id_hoc_vien');
             $table->integer('id_to_chuc');
             $table->string('so_tien');
-            $table->string('url_thanh_toan');
-            $table->string('file');
+            $table->string('hinh_anh');
             $table->string('token');
-            $table->integer('id_tinh_trang');
             $table->string('khoa_hoc');
+            $table->string('trinh_do');
             $table->string('ngay_cap');
             $table->string('ket_qua');
+            $table->integer('id_tinh_trang');
             $table->timestamps();
-
         });
     }
 
