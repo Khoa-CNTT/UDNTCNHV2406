@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class CoQuanXacThuc extends Model
+class CoQuanXacThuc extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'co_quan_xac_thucs';
     protected $fillable = [
         'email',
