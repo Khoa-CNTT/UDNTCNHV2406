@@ -15,6 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('ho_ten');
+            $table->string('ngay_sinh');
+            $table->string('gioi_tinh');
+            $table->string('so_cccd');
+            $table->string('sdt');
+            $table->string('dia_chi');
+            $table->integer('id_chuc_vu')->nullable();
+            $table->integer('is_duyet');
             $table->timestamps();
         });
     }
