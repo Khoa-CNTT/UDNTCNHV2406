@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer('id_to_chuc');
             $table->integer('id_hoc_vien');
-            $table->integer('tinh_trang');
-            $table->integer('id_chung_chi');
+            $table->string('ho_ten');
+            $table->string('so_cccd');
+            $table->string('email');
+            $table->string('so_hieu_chung_chi');
+            $table->integer('trang_thai');
             $table->timestamps();
         });
     }
