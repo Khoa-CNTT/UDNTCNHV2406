@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ChungChi extends Model
 {
+    use HasFactory;
     protected $table = 'chung_chis';
     protected $fillable = [
         'so_hieu_chung_chi',

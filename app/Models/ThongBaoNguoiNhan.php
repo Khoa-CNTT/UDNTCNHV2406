@@ -7,22 +7,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class HocVien extends Authenticatable
+class ThongBaoNguoiNhan extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-    protected $table = "hoc_viens";
+    protected $table = 'thong_bao_nguoi_nhans';
     protected $fillable = [
-        'email',
-        'password',
-        'ho_ten',
-        'ngay_sinh',
-        'gioi_tinh',
-        'so_cccd',
-        'sdt',
-        'dia_chi',
-        'hinh_anh',
-        'hash_reset',
-        'is_duyet',
+        'id_thong_bao',
+        'id_hoc_vien',
+        'id_to_chuc',
+        'xem',
     ];
 }

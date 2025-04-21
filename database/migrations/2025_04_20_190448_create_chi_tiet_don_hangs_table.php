@@ -11,19 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chung_chis', function (Blueprint $table) {
+        Schema::create('chi_tiet_don_hangs', function (Blueprint $table) {
             $table->id();
-            $table->string('so_hieu_chung_chi');
+            $table->integer('id_chung_chi');
             $table->integer('id_hoc_vien');
-            $table->integer('id_to_chuc');
+            $table->integer('id_don_hang')->nullable();
             $table->integer('so_tien');
-            $table->string('hinh_anh');
-            $table->string('token')->nullable();
-            $table->string('khoa_hoc');
-            $table->string('trinh_do');
-            $table->string('ngay_cap');
-            $table->string('ket_qua');
-            $table->integer('id_tinh_trang');
             $table->timestamps();
         });
     }
@@ -33,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chung_chis');
+        Schema::dropIfExists('chi_tiet_don_hangs');
     }
 };

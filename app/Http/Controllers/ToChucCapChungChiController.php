@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ToChucCapChungChi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ToChucCapChungChiController extends Controller
 {
@@ -36,15 +37,27 @@ class ToChucCapChungChiController extends Controller
         ]);
         if ($check) {
             $user = Auth::guard('to_chuc_cap_chung_chi')->user();
+            if ($user->is_duyet == 1) {
+                return response()->json([
+                    'message'  =>   'Đăng Nhập Thành Công.',
+                    'status'   =>   true,
+                    'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_to_chuc')->plainTextToken,
+                    'ten_to_chuc' =>   $user->ho_ten
+                ]);
+            } else if ($user->is_duyet == 0) {
+                return response()->json([
+                    'message'  =>   'Vui Lòng Đợi Duyệt Tài Khoản',
+                    'status'   =>   false
+                ]);
+            } else if($user->is_duyet == 2) {
+                return response()->json([
+                    'message'  =>   'Tài Khoản Đã Bị Khóa',
+                    'status'   =>   false,
+                ]);
+            }
+        }else{
             return response()->json([
-                'message'  =>   'Đăng nhập thành công.',
-                'status'   =>   true,
-                'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_to_chuc')->plainTextToken,
-                'ten_to_chuc' =>   $user->ten_to_chuc
-            ]);
-        } else {
-            return response()->json([
-                'message'  =>   'Sai thông tin đăng nhập.',
+                'message'  =>   'Sai Thông Tin Đăng Nhập.',
                 'status'   =>   false,
             ]);
         }
@@ -68,6 +81,24 @@ class ToChucCapChungChiController extends Controller
             return response()->json([
                 'status'   =>   false,
                 'message'  =>   'Yêu Cầu Đăng Nhập',
+            ]);
+        }
+    }
+    public function dangXuat()
+    {
+        $check = Auth::guard('sanctum')->user();
+        if ($check) {
+            DB::table('personal_access_tokens')
+                ->where('id', $check->currentAccessToken()->id)->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đăng xuất thiết bị này thành công"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Vui lòng đăng nhập"
             ]);
         }
     }
@@ -118,7 +149,7 @@ class ToChucCapChungChiController extends Controller
             ]);
         } else {
             return response()->json([
-                'status' => true,
+                'status' => false,
                 'message' => "Có Lỗi Xảy Ra"
             ]);
         }
@@ -136,7 +167,44 @@ class ToChucCapChungChiController extends Controller
             ]);
         } else {
             return response()->json([
-                'status' => true,
+                'status' => false,
+                'message' => "Có Lỗi Xảy Ra"
+            ]);
+        }
+    }
+    public function doiTrangThai(Request $request)
+    {
+
+        $to_chuc = ToChucCapChungChi::where('id', $request->id)->first();
+
+        if ($to_chuc) {
+            if ($to_chuc->is_active == 0) {
+                $to_chuc->is_active = 1;
+                $to_chuc->save();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đã Kích Hoạt Tài Khoản Thành Công"
+                ]);
+            } else if ($to_chuc->is_active == 1) {
+                $to_chuc->is_active = 2;
+                $to_chuc->save();
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đã Khóa Tài Khoản Thành Công"
+                ]);
+            } else if($to_chuc->is_active == 2){
+                $to_chuc->is_active = 1;
+                $to_chuc->save();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đã Mở Khóa Tài Khoản Thành Công"
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => false,
                 'message' => "Có Lỗi Xảy Ra"
             ]);
         }

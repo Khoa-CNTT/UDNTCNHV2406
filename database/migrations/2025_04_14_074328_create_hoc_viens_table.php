@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('sdt');
             $table->string('dia_chi');
             $table->string('hinh_anh')->nullable();
+            $table->string('hash_reset')->nullable();
             $table->integer('is_duyet');
             $table->timestamps();
         });

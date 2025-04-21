@@ -2,64 +2,99 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HocVien;
 use App\Models\ThongBao;
+use App\Models\ThongBaoNguoiNhan;
+use App\Models\ToChucCapChungChi;
 use Illuminate\Http\Request;
 
 class ThongBaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function guiThongBao(Request $request)
     {
-        //
-    }
+        try {
+            $tb = ThongBao::create([
+                'tieu_de' => $request->tieu_de,
+                'noi_dung' => $request->noi_dung,
+                'loai_nhan' => $request->loai_nhan,
+                'doi_tuong' => $request->doi_tuong,
+                'id_hoc_vien' => $request->id_hoc_vien,
+                'id_to_chuc' => $request->id_to_chuc,
+            ]);
+            if ($tb) {
+                $id_hv = HocVien::where('is_duyet', 1)->pluck('id')->toArray();
+                $id_tc = ToChucCapChungChi::where('is_duyet', 1)->pluck('id')->toArray();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+                switch ($tb->loai_nhan) {
+                    case 0: // Gửi cho tất cả
+                        foreach ($id_hv as $id) {
+                            ThongBaoNguoiNhan::create([
+                                'id_thong_bao' => $tb->id,
+                                'id_hoc_vien' => $id,
+                            ]);
+                        }
+                        foreach ($id_tc as $id) {
+                            ThongBaoNguoiNhan::create([
+                                'id_thong_bao' => $tb->id,
+                                'id_to_chuc' => $id,
+                            ]);
+                        }
+                        break;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+                    case 1: // Gửi cho học viên
+                        foreach ($id_hv as $id) {
+                            ThongBaoNguoiNhan::create([
+                                'id_thong_bao' => $tb->id,
+                                'id_hoc_vien' => $id,
+                            ]);
+                        }
+                        break;
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ThongBao $thongBao)
-    {
-        //
-    }
+                    case 2: // Gửi cho tổ chức
+                        foreach ($id_tc as $id) {
+                            ThongBaoNguoiNhan::create([
+                                'id_thong_bao' => $tb->id,
+                                'id_to_chuc' => $id,
+                            ]);
+                        }
+                        break;
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ThongBao $thongBao)
-    {
-        //
-    }
+                    case 3: // Gửi đối tượng cụ thể
+                        if ($tb->doi_tuong == 1) {
+                            ThongBaoNguoiNhan::create([
+                                'id_thong_bao' => $tb->id,
+                                'id_hoc_vien' => $tb->id_hoc_vien,
+                            ]);
+                        } elseif ($tb->doi_tuong == 2) {
+                            ThongBaoNguoiNhan::create([
+                                'id_thong_bao' => $tb->id,
+                                'id_to_chuc' => $tb->id_to_chuc,
+                            ]);
+                        }
+                        break;
+                }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ThongBao $thongBao)
-    {
-        //
+                return response()->json([
+                    'message' => 'Tạo Thông Báo Thành Công.',
+                    'status' => true
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Tạo Thông Báo Thất Bại.',
+                    'status' => false
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message'  =>   'Tạo Thông Báo Thất Bại.',
+                'status'   =>   false
+            ]);
+        }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ThongBao $thongBao)
-    {
-        //
+    public function getData(){
+      $data = ThongBao::get();
+        return response([
+            'data' => $data,
+        ]);
     }
 }

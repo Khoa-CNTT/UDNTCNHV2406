@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('so_cccd');
             $table->string('sdt');
             $table->string('dia_chi');
+            $table->string('hinh_anh')->nullable();
+            $table->string('hash_reset')->nullable();
             $table->integer('id_chuc_vu')->nullable();
             $table->integer('is_duyet');
             $table->timestamps();

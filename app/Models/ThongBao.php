@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class ThongBao extends Model
+class ThongBao extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'thong_baos';
     protected $fillable = [
-        'thoi_gian',
         'tieu_de',
         'noi_dung',
-        'id_co_quan',
+        'loai_nhan',
+        'doi_tuong',
         'id_hoc_vien',
         'id_to_chuc'
     ];

@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 class ToChucCapChungChi extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    
+
     protected $table = "to_chuc_cap_chung_chis";
     protected $fillable = [
         'email',
@@ -23,6 +23,7 @@ class ToChucCapChungChi extends Authenticatable
         'sdt_nguoi_dai_dien',
         'email_nguoi_dai_dien',
         'hinh_anh',
+        'hash_reset',
         'is_duyet',
     ];
 }

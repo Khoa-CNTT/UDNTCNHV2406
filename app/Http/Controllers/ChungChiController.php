@@ -4,62 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\ChungChi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChungChiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function getData()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ChungChi $chungChi)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ChungChi $chungChi)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ChungChi $chungChi)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ChungChi $chungChi)
-    {
-        //
+        $check = Auth::guard('sanctum')->user();
+        $data = ChungChi::where('id_hoc_vien', $check->id)
+            ->whereNull('token')
+            ->get();
+        return response()->json([
+            'data' => $data,
+        ]);
     }
 }

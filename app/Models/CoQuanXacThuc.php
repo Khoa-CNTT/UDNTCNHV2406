@@ -22,6 +22,7 @@ class CoQuanXacThuc extends Authenticatable
         'sdt_nguoi_dai_dien',
         'email_nguoi_dai_dien',
         'hinh_anh',
+        'hash_reset',
         'is_duyet'
     ];
 }

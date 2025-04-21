@@ -22,6 +22,9 @@ class Admin extends Authenticatable
         'sdt',
         'dia_chi',
         'id_chuc_vu',
+        'hinh_anh',
+        'id_chuc_vu',
+        'hash_reset',
         'is_duyet'
     ];
 }

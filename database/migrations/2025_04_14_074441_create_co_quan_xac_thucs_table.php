@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('sdt_nguoi_dai_dien');
             $table->string('email_nguoi_dai_dien');
             $table->string('hinh_anh')->nullable();
+            $table->string('hash_reset')->nullable();
             $table->integer('is_duyet');
             $table->timestamps();
         });

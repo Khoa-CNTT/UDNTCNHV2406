@@ -140,4 +140,42 @@ class CoQuanXacThucController extends Controller
             ]);
         }
     }
+    public function getHocdoiTrangThaiVien(Request $request)
+    {
+
+        $co_quan = CoQuanXacThuc::where('id', $request->id)->first();
+
+        if ($co_quan) {
+            if ($co_quan->is_active == 0) {
+                $co_quan->is_active = 1;
+                $co_quan->save();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đã Kích Hoạt Tài Khoản Thành Công"
+                ]);
+            } else if ($co_quan->is_active == 1) {
+                $co_quan->is_active = 2;
+                $co_quan->save();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đã Khóa Tài Khoản Thành Công"
+                ]);
+            } else {
+                $co_quan->is_active = 1;
+                $co_quan->save();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đã Mở Khóa Tài Khoản Thành Công"
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có Lỗi Xảy Ra"
+            ]);
+        }
+    }
 }
