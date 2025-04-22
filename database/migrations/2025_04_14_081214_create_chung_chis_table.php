@@ -19,11 +19,14 @@ return new class extends Migration
             $table->integer('so_tien');
             $table->string('hinh_anh');
             $table->string('token')->nullable();
+            $table->string('MetaData_URL')->nullable();
             $table->string('khoa_hoc');
             $table->string('trinh_do');
             $table->string('ngay_cap');
             $table->string('ket_qua');
+            $table->integer('id_thong_tin_upload');
             $table->integer('id_tinh_trang');
+            $table->string('ghi_chu');
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ use App\Http\Controllers\ThongKeController;
 use App\Http\Controllers\ThongTinUploadController;
 use App\Http\Controllers\ToChucCapChungChiController;
 use App\Http\Controllers\UpFileImageController;
+use App\Http\Controllers\YeuCauCapController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -91,6 +92,16 @@ Route::get('/hoc_vien/can-thanh-toan', [ChiTietDonHangController::class,'getData
 
 
 Route::get('/hoc_vien/chung-chi-chua-cap', [ChungChiController::class,'getData']);
+Route::post('/to-chuc/tao-chung-chi', [ChungChiController::class,'taoChungChi']);//chưa có token
+
+
+Route::post('/hoc-vien/yeu-cau-cap', [YeuCauCapController::class, 'guiYeuCauCap']);
+Route::get('/get-data', [YeuCauCapController::class, 'getData']);
+
+Route::get('/to-chuc/truy-xuat-getdata/{id}', [YeuCauCapController::class, 'getDataTruyXuat']);
+
+
+Route::get('/get-data', [YeuCauCapController::class, 'getData']);
 
 
 Route::post('/upload-folder', [UpFileImageController::class, 'uploadFolder']);
@@ -98,6 +109,8 @@ Route::post('/upload-folder', [UpFileImageController::class, 'uploadFolder']);
 
 Route::post('/import-excel', [ThongTinUploadController::class, 'import']);
 Route::get('/get-data', [ThongTinUploadController::class, 'getData']);
+
+
 
 //php artisan storage:link
 //composer require shuchkin/simplexlsx

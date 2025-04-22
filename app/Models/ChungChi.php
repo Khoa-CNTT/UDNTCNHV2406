@@ -15,10 +15,13 @@ class ChungChi extends Model
         'so_tien',
         'hinh_anh',
         'token',
+        'MetaData_URL',
         'khoa_hoc',
         'trinh_do',
         'ngay_cap',
         'ket_qua',
+        'id_thong_tin_upload',
+        'ghi_chu',
         'id_tinh_trang',
     ];
 }

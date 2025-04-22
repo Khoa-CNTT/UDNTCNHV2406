@@ -6,6 +6,7 @@ use App\Models\ToChucCapChungChi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ToChucCapChungChiController extends Controller
 {
@@ -158,13 +159,21 @@ class ToChucCapChungChiController extends Controller
     {
         $check = Auth::guard('sanctum')->user();
         if ($check) {
-            ToChucCapChungChi::where('id', $check->id)->update([
-                'password'             => bcrypt($request->password),
-            ]);
-            return response()->json([
-                'status' => true,
-                'message' => "Cập Nhật Mật Khẩu Thành Công"
-            ]);
+            $doi = ToChucCapChungChi::where('id', $check->id)->first();
+            if (Hash::check($request->password, $doi->password)) {
+                $doi->update([
+                    'password' => bcrypt($request->update_password),
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đổi Mật Khẩu Thành Công"
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "Mật Khẩu Hiện Cũ Sai"
+                ]);
+            }
         } else {
             return response()->json([
                 'status' => false,

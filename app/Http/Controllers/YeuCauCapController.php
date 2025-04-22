@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class YeuCauCapController extends Controller
 {
-    //api
     public function guiYeuCauCap(Request $request)
     {
         $check = Auth::guard('sanctum')->user();
@@ -55,5 +54,42 @@ class YeuCauCapController extends Controller
                 'data' => $data
             ]);
         }
+    }
+    public function getDataTruyXuat($id)
+    {
+        $check = Auth::guard('sanctum')->user();
+        $to_chuc = $this->isUserToChucCapChungChi();
+        if ($check) {
+            if ($to_chuc) {
+                $data = YeuCauCap::join('to_chuc_cap_chung_chis', 'yeu_cau_caps.id_to_chuc', 'to_chuc_cap_chung_chis.id')
+                    ->join('thong_tin_uploads', 'to_chuc_cap_chung_chis.id', 'thong_tin_uploads.id_to_chuc')
+                    ->where('yeu_cau_caps.id_to_chuc', $check->id)
+                    ->where('yeu_cau_caps.id', $id)
+                    ->whereColumn('thong_tin_uploads.id_to_chuc', 'to_chuc_cap_chung_chis.id')
+                    ->whereColumn('yeu_cau_caps.email', 'thong_tin_uploads.email')
+                    ->whereColumn('yeu_cau_caps.so_hieu_chung_chi', 'thong_tin_uploads.so_hieu_chung_chi')
+                    ->select('thong_tin_uploads.*')
+                    ->first();
+                if ($data) {
+                    return response()->json([
+                        'data' => $data
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Không Tìm Được Thông Tin'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Có Lỗi Xảy Ra'
+                ]);
+            }
+        }
+
+    }
+    public function taoChungChi(){
+
     }
 }
