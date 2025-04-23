@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UpFileImageController extends Controller
 {
     public function uploadFolder(Request $request)
     {
         try {
+        $check = Auth::guard('sanctum')->user();
             $urls = [];
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {

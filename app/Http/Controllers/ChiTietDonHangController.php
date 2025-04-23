@@ -44,7 +44,7 @@ class ChiTietDonHangController extends Controller
         ChiTietDonHang::create([
             'id_chung_chi'  => $chung_chi->id,
             'id_hoc_vien'   => $hoc_vien->id,
-            'id_don_hang'   => 0, // Chưa gán vào đơn hàng nào cả
+            'id_don_hang'   => 0,
             'so_tien'       => $chung_chi->so_tien,
         ]);
 

@@ -22,6 +22,6 @@ class ChungChi extends Model
         'ket_qua',
         'id_thong_tin_upload',
         'ghi_chu',
-        'id_tinh_trang',
+        'tinh_trang',
     ];
 }

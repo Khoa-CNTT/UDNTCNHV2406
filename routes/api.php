@@ -67,6 +67,7 @@ Route::post('/to-chuc/lay-lai-mat-khau/{hash_reset}', [ToChucCapChungChiControll
 
 Route::post('admin/to-chuc/doi-trang-thai', [ToChucCapChungChiController::class,'doiTrangThai']);
 
+Route::get('list-ten/to-chuc/data', [ToChucCapChungChiController::class,'getDataTen']);
 
 
 
@@ -91,17 +92,17 @@ Route::post('/them-vao-thanh-toan', [ChiTietDonHangController::class,'themVaoTha
 Route::get('/hoc_vien/can-thanh-toan', [ChiTietDonHangController::class,'getData']);
 
 
-Route::get('/hoc_vien/chung-chi-chua-cap', [ChungChiController::class,'getData']);
+Route::get('/hoc-vien/chung-chi-chua-cap', [ChungChiController::class,'getData']);
 Route::post('/to-chuc/tao-chung-chi', [ChungChiController::class,'taoChungChi']);//chưa có token
 
 
 Route::post('/hoc-vien/yeu-cau-cap', [YeuCauCapController::class, 'guiYeuCauCap']);
-Route::get('/get-data', [YeuCauCapController::class, 'getData']);
+
 
 Route::get('/to-chuc/truy-xuat-getdata/{id}', [YeuCauCapController::class, 'getDataTruyXuat']);
 
 
-Route::get('/get-data', [YeuCauCapController::class, 'getData']);
+Route::get('/get-yeu-cau-cap-data', [YeuCauCapController::class, 'getData']);
 
 
 Route::post('/upload-folder', [UpFileImageController::class, 'uploadFolder']);

@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('ngay_cap');
             $table->string('ket_qua');
             $table->integer('id_thong_tin_upload');
-            $table->integer('id_tinh_trang');
-            $table->string('ghi_chu');
+            $table->integer('tinh_trang');
+            $table->string('ghi_chu')->nullable();
             $table->timestamps();
         });
     }

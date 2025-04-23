@@ -72,7 +72,9 @@ class YeuCauCapController extends Controller
                     ->first();
                 if ($data) {
                     return response()->json([
-                        'data' => $data
+                        'data' => $data,
+                        'status' => true,
+                        'message' => 'Có Thông Tin'
                     ]);
                 } else {
                     return response()->json([
@@ -82,14 +84,11 @@ class YeuCauCapController extends Controller
                 }
             } else {
                 return response()->json([
-                    'status' => true,
+                    'status' => false,
                     'message' => 'Có Lỗi Xảy Ra'
                 ]);
             }
         }
-
-    }
-    public function taoChungChi(){
 
     }
 }

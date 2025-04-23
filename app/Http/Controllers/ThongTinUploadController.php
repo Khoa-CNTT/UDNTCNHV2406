@@ -6,12 +6,14 @@ use Shuchkin\SimpleXLSX;
 use Illuminate\Http\Request;
 use App\Models\ThongTinUpload;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ThongTinUploadController extends Controller
 {
     public function import(Request $request)
     {
-       $check = Auth::guard('sanctum')->user();
+       try{
+        $check = Auth::guard('sanctum')->user();
         $file = $request->file('file');
 
         if (!$file) {
@@ -22,7 +24,7 @@ class ThongTinUploadController extends Controller
                 if ($index === 0) continue; // Bỏ qua tiêu đề
 
                 ThongTinUpload::create([
-                    'id_to_chuc' => $check->id,
+                    'id_to_chuc' => 1,
                     'so_hieu_chung_chi' => $row[1],
                     'hinh_anh' => $row[2],
                     'khoa_hoc' => $row[3],
@@ -46,6 +48,12 @@ class ThongTinUploadController extends Controller
                 'message' => 'Có Lỗi Xảy Ra'
             ]);
         }
+       }catch(\Throwable $e){
+        return response()->json([
+            'status' => false,
+            'message' => 'Có Lỗi Xảy Ra Catch'
+        ]);
+       }
     }
 
     public function getData()

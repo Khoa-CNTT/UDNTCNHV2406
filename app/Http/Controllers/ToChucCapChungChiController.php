@@ -43,7 +43,7 @@ class ToChucCapChungChiController extends Controller
                     'message'  =>   'Đăng Nhập Thành Công.',
                     'status'   =>   true,
                     'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_to_chuc')->plainTextToken,
-                    'ten_to_chuc' =>   $user->ho_ten
+                    'ten_to_chuc' =>   $user->ten_to_chuc,
                 ]);
             } else if ($user->is_duyet == 0) {
                 return response()->json([
@@ -217,5 +217,12 @@ class ToChucCapChungChiController extends Controller
                 'message' => "Có Lỗi Xảy Ra"
             ]);
         }
+    }
+    public function getDataTen()
+    {
+        $data = ToChucCapChungChi::select('id','ten_to_chuc')->get();
+        return response()->json([
+            'data' => $data,
+        ]);
     }
 }
