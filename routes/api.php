@@ -86,10 +86,12 @@ Route::delete('/xoa-thong-bao/{id}', [ThongBaoNguoiNhanController::class,'xoaTho
 
 
 Route::post('/hoc-vien/thanh-toan', [DonHangController::class,'actionThanhToan']);//bước 2
+Route::get('/hoc-vien/thanh-toan-co-qr', [DonHangController::class,'getDataMaqr']);
 
 
 Route::post('/them-vao-thanh-toan', [ChiTietDonHangController::class,'themVaoThanhToan']); //bước1
-Route::get('/hoc_vien/can-thanh-toan', [ChiTietDonHangController::class,'getData']);
+Route::get('/hoc-vien/can-thanh-toan', [ChiTietDonHangController::class,'getData']);
+Route::post('/hoc-vien/xoa-don-chi-tiet', [ChiTietDonHangController::class,'xoaDonChiTiet']);
 
 
 Route::get('/hoc-vien/chung-chi-chua-cap', [ChungChiController::class,'getData']);

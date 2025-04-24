@@ -20,8 +20,7 @@ class ChungChi extends Model
         'trinh_do',
         'ngay_cap',
         'ket_qua',
-        'id_thong_tin_upload',
-        'ghi_chu',
         'tinh_trang',
+        'ghi_chu',
     ];
 }

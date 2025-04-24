@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->integer('id_chung_chi');
             $table->integer('id_hoc_vien');
-            $table->integer('id_don_hang')->nullable();
+            $table->unsignedBigInteger('id_don_hang')->nullable();
             $table->integer('so_tien');
             $table->timestamps();
+            $table->foreign('id_don_hang')
+                  ->references('id')->on('don_hangs')
+                  ->onDelete('cascade');
         });
     }
 
@@ -28,4 +31,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('chi_tiet_don_hangs');
     }
+
 };
