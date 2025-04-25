@@ -23,6 +23,19 @@ class ChungChiController extends Controller
             'data' => $data,
         ]);
     }
+    public function getDataNft()
+    {
+        $check = $this->isUserHocVien();
+        $data = ChungChi::join('hoc_viens', 'chung_chis.id_hoc_vien','hoc_viens.id')
+        ->whereColumn('chung_chis.id_hoc_vien', 'hoc_viens.id')
+        ->where('chung_chis.id_to_chuc', $check->id)
+            ->whereNotNull('token')
+            ->select('chung_chis.*', 'hoc_viens.ho_ten','hoc_viens.email','hoc_viens.so_cccd' ,'hoc_viens.ngay_sinh')
+            ->get();
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
     public function changeVoHieuHoa(Request $request)
     {
 

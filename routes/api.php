@@ -93,6 +93,7 @@ Route::post('/hoc-vien/xoa-don-chi-tiet', [ChiTietDonHangController::class,'xoaD
 
 
 Route::get('/hoc-vien/chung-chi-chua-cap', [ChungChiController::class,'getDataHv']);
+Route::get('/hoc-vien/chung-chi-nft', [ChungChiController::class,'getDataNft']);
 Route::get('/to-chuc/chung-chi-nft', [ChungChiController::class,'getDataTc']);
 Route::post('to-chuc/change-vo-hieu-hoa', [ChungChiController::class,'changeVoHieuHoa']);// là nft
 
