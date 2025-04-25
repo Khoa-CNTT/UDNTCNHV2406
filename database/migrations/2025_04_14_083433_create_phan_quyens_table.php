@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('phan_quyens', function (Blueprint $table) {
             $table->id();
             $table->string('ten_quyen');
+            $table->integer('is_quyen')->default(0);
             $table->timestamps();
         });
     }
