@@ -17,6 +17,7 @@ use App\Http\Controllers\ThongKeController;
 use App\Http\Controllers\ThongTinUploadController;
 use App\Http\Controllers\ToChucCapChungChiController;
 use App\Http\Controllers\UpFileImageController;
+use App\Http\Controllers\ViNftController;
 use App\Http\Controllers\YeuCauCapController;
 use App\Models\ChiTietCapQuyen;
 use Illuminate\Http\Request;
@@ -82,8 +83,6 @@ Route::get('list-ten/to-chuc/data', [ToChucCapChungChiController::class,'getData
 
 
 
-Route::get('/admin/lich-su-giao-dich', [LichSuGiaoDichController::class,'adminGetLSGiaoDich']);
-
 
 
 Route::post('/admin/gui-thong-bao', [ThongBaoController::class,'guiThongBao']);
@@ -92,7 +91,7 @@ Route::get('/admin/data-thong-bao', [ThongBaoController::class,'getData']);
 
 
 Route::get('/xem-thong-bao', [ThongBaoNguoiNhanController::class,'xemThongBao']);
-Route::delete('/xoa-thong-bao/{id}', [ThongBaoNguoiNhanController::class,'xoaThongBao']);
+Route::post('/xoa-thong-bao', [ThongBaoNguoiNhanController::class,'xoaThongBao']);
 
 
 
@@ -100,10 +99,15 @@ Route::post('/hoc-vien/thanh-toan', [DonHangController::class,'actionThanhToan']
 
 
 Route::post('/them-vao-thanh-toan', [ChiTietDonHangController::class,'themVaoThanhToan']); //bước1
-Route::get('/hoc_vien/can-thanh-toan', [ChiTietDonHangController::class,'getData']);
+Route::get('/hoc-vien/can-thanh-toan', [ChiTietDonHangController::class,'getData']);
+Route::post('/hoc-vien/xoa-don-chi-tiet', [ChiTietDonHangController::class,'xoaDonChiTiet']);
 
 
-Route::get('/hoc-vien/chung-chi-chua-cap', [ChungChiController::class,'getData']);
+Route::get('/hoc-vien/chung-chi-chua-cap', [ChungChiController::class,'getDataHv']);
+Route::get('/hoc-vien/chung-chi-nft', [ChungChiController::class,'getDataNft']);
+Route::get('/to-chuc/chung-chi-nft', [ChungChiController::class,'getDataTc']);
+Route::post('to-chuc/change-vo-hieu-hoa', [ChungChiController::class,'changeVoHieuHoa']);// là nft
+
 Route::post('/to-chuc/tao-chung-chi', [ChungChiController::class,'taoChungChi']);//chưa có token
 
 
@@ -123,10 +127,13 @@ Route::post('/import-excel', [ThongTinUploadController::class, 'import']);
 Route::get('/get-data', [ThongTinUploadController::class, 'getData']);
 
 
+Route::get('hoc-vien/vi-nft/get-data', [ViNftController::class, 'getDataViHV']);
+
+
 
 //php artisan storage:link
 //composer require shuchkin/simplexlsx
-
+//php artisan queue:work đếm thời gian giao dịch
 
 // Route::post('/co-quan/dang-ky', [CoQuanXacThucController::class,'dangKy']);
 // Route::post('/co-quan/dang-nhap', [CoQuanXacThucController::class,'dangNhap']);

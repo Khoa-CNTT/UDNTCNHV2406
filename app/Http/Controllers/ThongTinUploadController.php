@@ -12,53 +12,59 @@ class ThongTinUploadController extends Controller
 {
     public function import(Request $request)
     {
-       try{
-        $check = Auth::guard('sanctum')->user();
-        $file = $request->file('file');
+        try {
+            $to_chuc = $this->isUserToChucCapChungChi();
+            if ($to_chuc) {
+                $file = $request->file('file');
 
-        if (!$file) {
-            return response()->json(['error' => 'Không có tệp tải lên'], 400);
-        }
-        if ($xlsx = SimpleXLSX::parse($file->getPathname())) {
-            foreach ($xlsx->rows() as $index => $row) {
-                if ($index === 0) continue; // Bỏ qua tiêu đề
+                if (!$file) {
+                    return response()->json(['error' => 'Không có tệp tải lên'], 400);
+                }
+                if ($xlsx = SimpleXLSX::parse($file->getPathname())) {
+                    foreach ($xlsx->rows() as $index => $row) {
+                        if ($index === 0) continue; // Bỏ qua tiêu đề
 
-                ThongTinUpload::create([
-                    'id_to_chuc' => 1,
-                    'so_hieu_chung_chi' => $row[1],
-                    'hinh_anh' => $row[2],
-                    'khoa_hoc' => $row[3],
-                    'trinh_do' => $row[4],
-                    'ngay_cap' => $row[5],
-                    'ket_qua' => $row[6],
-                    'ho_ten' => $row[7],
-                    'so_cccd' => $row[8],
-                    'sdt' => $row[9],
-                    'email' => $row[10],
-                ]);
+                        ThongTinUpload::create([
+                            'id_to_chuc' => $to_chuc->id,
+                            'so_hieu_chung_chi' => $row[1],
+                            'hinh_anh' => $row[2],
+                            'khoa_hoc' => $row[3],
+                            'trinh_do' => $row[4],
+                            'ngay_cap' => $row[5],
+                            'ket_qua' => $row[6],
+                            'ho_ten' => $row[7],
+                            'so_cccd' => $row[8],
+                            'sdt' => $row[9],
+                            'email' => $row[10],
+                        ]);
+                    }
+
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Tải Lên Thành Công'
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Có Lỗi Xảy Ra'
+                    ]);
+                }
             }
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Tải Lên Thành Công'
-            ]);
-        } else {
+        } catch (\Throwable $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Có Lỗi Xảy Ra'
+                'message' => 'Có Lỗi Xảy Ra Catch'
             ]);
         }
-       }catch(\Throwable $e){
-        return response()->json([
-            'status' => false,
-            'message' => 'Có Lỗi Xảy Ra Catch'
-        ]);
-       }
     }
 
     public function getData()
     {
-        $data = ThongTinUpload::all();
-        return response()->json($data);
+        $to_chuc = $this->isUserToChucCapChungChi();
+        if ($to_chuc) {
+            $data = ThongTinUpload::where('id_to_chuc', $to_chuc->id)
+                ->get();
+            return response()->json([$data]);
+        }
     }
 }

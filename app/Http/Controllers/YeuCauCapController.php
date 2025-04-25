@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HocVien;
 use App\Models\YeuCauCap;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,11 +44,12 @@ class YeuCauCapController extends Controller
             if ($hoc_vien) {
                 $data = YeuCauCap::where('id_hoc_vien', $check->id)
                     ->join('to_chuc_cap_chung_chis', 'to_chuc_cap_chung_chis.id', 'yeu_cau_caps.id_to_chuc')
-                    ->select('to_chuc_cap_chung_chis.ten_to_chuc', 'yeu_cau_caps.*')
+                    ->select('yeu_cau_caps.*', 'to_chuc_cap_chung_chis.ten_to_chuc',)
                     ->get();
             } else if ($to_chuc) {
                 $data = YeuCauCap::where('id_to_chuc', $check->id)
-                    ->join('hoc_viens', 'hoc_viens.id', 'yeu_cau_caps.id_hoc_vien')
+                    ->where('yeu_cau_caps.trang_thai', 0)
+                    ->select('yeu_cau_caps.*')
                     ->get();
             }
             return response()->json([
@@ -71,12 +73,18 @@ class YeuCauCapController extends Controller
                     ->select('thong_tin_uploads.*')
                     ->first();
                 if ($data) {
+                    YeuCauCap::where('id', $id)->update([
+                        'trang_thai' => 1,
+                    ]);
                     return response()->json([
                         'data' => $data,
                         'status' => true,
                         'message' => 'Có Thông Tin'
                     ]);
                 } else {
+                    YeuCauCap::where('id', $id)->update([
+                        'trang_thai' => 2, //sai tt
+                    ]);
                     return response()->json([
                         'status' => false,
                         'message' => 'Không Tìm Được Thông Tin'
@@ -89,6 +97,5 @@ class YeuCauCapController extends Controller
                 ]);
             }
         }
-
     }
 }
