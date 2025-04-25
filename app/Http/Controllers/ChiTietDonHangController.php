@@ -12,8 +12,7 @@ class ChiTietDonHangController extends Controller
 {
     public function themVaoThanhToan(Request $request)
     {
-        $hoc_vien = Auth::guard('sanctum')->user();
-
+        $hoc_vien = $this->isUserHocVien();
         if (!$hoc_vien) {
             return response()->json([
                 'status' => false,
@@ -34,7 +33,7 @@ class ChiTietDonHangController extends Controller
         }
 
         $da_co = ChiTietDonHang::where('id_chung_chi', $chung_chi->id)
-                            ->first();
+            ->first();
         if ($da_co) {
             return response()->json([
                 'status' => false,
@@ -55,23 +54,23 @@ class ChiTietDonHangController extends Controller
     }
     public function getData()
     {
-        $check = Auth::guard('sanctum')->user();
         $hoc_vien = $this->isUserHocVien();
-        if($hoc_vien){
+        if ($hoc_vien) {
             $data = ChiTietDonHang::join('chung_chis', 'chung_chis.id', 'chi_tiet_don_hangs.id_chung_chi')
-            ->where('chi_tiet_don_hangs.id_hoc_vien', $check->id)
-            ->whereNull('chung_chis.token')
-            ->whereNull('chi_tiet_don_hangs.id_don_hang')
-            ->select('chi_tiet_don_hangs.*','chung_chis.so_hieu_chung_chi','chung_chis.id_to_chuc','chung_chis.so_tien','chung_chis.hinh_anh','chung_chis.khoa_hoc','chung_chis.trinh_do','chung_chis.ngay_cap','chung_chis.ket_qua','chung_chis.tinh_trang','chung_chis.ghi_chu')
-            ->get();
-        return response()->json([
-            'data' => $data,
-        ]);
+                ->where('chi_tiet_don_hangs.id_hoc_vien', $hoc_vien->id)
+                ->whereNull('chung_chis.token')
+                ->whereNull('chi_tiet_don_hangs.id_don_hang')
+                ->select('chi_tiet_don_hangs.*', 'chung_chis.so_hieu_chung_chi', 'chung_chis.id_to_chuc', 'chung_chis.so_tien', 'chung_chis.hinh_anh', 'chung_chis.khoa_hoc', 'chung_chis.trinh_do', 'chung_chis.ngay_cap', 'chung_chis.ket_qua', 'chung_chis.tinh_trang', 'chung_chis.ghi_chu')
+                ->get();
+            return response()->json([
+                'data' => $data,
+            ]);
         }
     }
-    public function xoaDonChiTiet(Request $request){
+    public function xoaDonChiTiet(Request $request)
+    {
         $data   =   ChiTietDonHang::where('id', $request->id)->first();
-        if($data) {
+        if ($data) {
             $data->delete();
             return response()->json([
                 'status'    =>   true,

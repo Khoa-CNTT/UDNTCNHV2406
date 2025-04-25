@@ -125,14 +125,14 @@ class HocVienController extends Controller
     }
     public function Profile()
     {
-        $data = Auth::guard('sanctum')->user();
+        $data = $this->isUserHocVien();
         return response()->json([
             'data' => $data,
         ]);
     }
     public function updateProfile(Request $request)
     {
-        $check = Auth::guard('sanctum')->user();
+        $check = $this->isUserHocVien();
         if ($check) {
             HocVien::where('id', $check->id)->update([
                 'email' => $request->email,
@@ -156,7 +156,7 @@ class HocVienController extends Controller
     }
     public function updateMatKhau(Request $request)
     {
-        $check = Auth::guard('sanctum')->user();
+        $check = $this->isUserHocVien();
         if ($check) {
             $doi = HocVien::where('id', $check->id)->first();
             if (Hash::check($request->password, $doi->password)) {
@@ -218,9 +218,7 @@ class HocVienController extends Controller
     }
     public function doiTrangThai(Request $request)
     {
-
         $hoc_vien = HocVien::where('id', $request->id)->first();
-
         if ($hoc_vien) {
             if ($hoc_vien->is_active == 0) {
                 $hoc_vien->is_active = 1;

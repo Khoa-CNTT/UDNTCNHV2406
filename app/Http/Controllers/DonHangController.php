@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Mail;
 class DonHangController extends Controller
 {
     //trước khi bấm thanh toán thì phải thêm vào giỏ hàng/ chi tiết đơn hàng
-
     public function actionThanhToan(Request $request)
     {
         try {
@@ -48,8 +47,8 @@ class DonHangController extends Controller
                     $don_hang->save();
 
                     $chi_tiet_don_hang = ChiTietDonHang::where('id_don_hang', $don_hang->id)
-                    ->join('chung_chis', 'chi_tiet_don_hangs.id_chung_chi', 'chung_chis.id')
-                    ->get();
+                        ->join('chung_chis', 'chi_tiet_don_hangs.id_chung_chi', 'chung_chis.id')
+                        ->get();
 
                     $qr_link   =   "https://img.vietqr.io/image/MB-0347341227-qr_only.png?amount=" . $tong_tien_thanh_toan . "&addInfo=" . $ma_don_hang;
 
@@ -78,18 +77,6 @@ class DonHangController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => "Có Lỗi Xảy Ra"
-            ]);
-        }
-    }
-    public function getDataMaqr()
-    {
-        $check = Auth::guard('sanctum')->user();
-        $hoc_vien = $this->isUserHocVien();
-        if ($hoc_vien) {
-            $data = DonHang::where('id', $check->id)
-                ->first();
-            return response()->json([
-                'data' => $data
             ]);
         }
     }

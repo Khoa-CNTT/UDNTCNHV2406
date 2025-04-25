@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,4 +20,8 @@ class ThongBao extends Authenticatable
         'id_hoc_vien',
         'id_to_chuc'
     ];
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('H:i d/m/Y');
+    }
 }

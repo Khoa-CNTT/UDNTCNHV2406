@@ -22,10 +22,6 @@ class ThongBaoNguoiNhanController extends Controller
             return response()->json([
                 'data' => $data,
             ]);
-            // ->map(function ($item) { định dạng thời gian
-            //     $item->created_at = Carbon::parse($item->created_at)->format('d/m/Y H:i');
-            //     return $item;
-            // });
         } else if ($to_chuc) {
             $data = ThongBaoNguoiNhan::join('thong_baos', 'thong_bao_nguoi_nhans.id_thong_bao', 'thong_baos.id')
                 ->where('thong_bao_nguoi_nhans.id_to_chuc', $check->id)
@@ -36,15 +32,28 @@ class ThongBaoNguoiNhanController extends Controller
             ]);
         }
     }
-    public function xoaThongBao($id){
-        $data   =   ThongBaoNguoiNhan::where('id', $id)->first();
-        if($data) {
-            $data->delete();
+    public function xoaThongBao(Request $request)
+    {
+        $hoc_vien = $this->isUserHocVien();
+        $to_chuc = $this->isUserToChucCapChungChi();
+
+        try {
+            $ids = collect($request->ds_thong_bao_can_xoa)->pluck('id');
+
+            if ($hoc_vien) {
+                ThongBaoNguoiNhan::where('id_hoc_vien', $hoc_vien->id)
+                    ->whereIn('id', $ids)
+                    ->delete();
+            } elseif ($to_chuc) {
+                ThongBaoNguoiNhan::where('id_to_chuc', $to_chuc->id)
+                    ->whereIn('id', $ids)
+                    ->delete();
+            }
             return response()->json([
                 'status'    =>   true,
                 'message'   =>   'Đã Xóa Thành Công'
             ]);
-        } else {
+        } catch (\Exception $e) {
             return response()->json([
                 'status'    =>   false,
                 'message'   =>   'Có Lỗi Xảy Ra'

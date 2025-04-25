@@ -13,7 +13,6 @@ class ThongTinUploadController extends Controller
     public function import(Request $request)
     {
         try {
-            $check = Auth::guard('sanctum')->user();
             $to_chuc = $this->isUserToChucCapChungChi();
             if ($to_chuc) {
                 $file = $request->file('file');
@@ -62,11 +61,10 @@ class ThongTinUploadController extends Controller
     public function getData()
     {
         $to_chuc = $this->isUserToChucCapChungChi();
-        if($to_chuc){
-            $data = ThongTinUpload::where('id_to_chuc',$to_chuc->id)
-            ->get();
-            return response()->json($data);
+        if ($to_chuc) {
+            $data = ThongTinUpload::where('id_to_chuc', $to_chuc->id)
+                ->get();
+            return response()->json([$data]);
         }
-
     }
 }

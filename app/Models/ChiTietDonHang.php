@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\DonHang;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class ChiTietDonHang extends Model
@@ -28,4 +29,8 @@ class ChiTietDonHang extends Model
         Log::info("ChiTietDonHang ID {$chiTietDonHang->id} đã bị xóa!");
     });
 }
+public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('H:i d/m/Y');
+    }
 }

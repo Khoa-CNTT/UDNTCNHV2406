@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class YeuCauCap extends Model
 {
     use HasFactory;
@@ -18,4 +20,8 @@ class YeuCauCap extends Model
         'so_hieu_chung_chi',
         'trang_thai'
     ];
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('H:i d/m/Y');
+    }
 }
