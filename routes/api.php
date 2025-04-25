@@ -43,7 +43,12 @@ Route::post('/admin/chuc-vu/update', [ChucVuController::class, 'UpateChucVu']);
 Route::get('/admin/chuc-nang-theo-chuc-vu/{id_chuc_vu}', [ChiTietCapQuyenController::class, 'loadchiTietChucNang']);
 Route::post('/admin/chi-tiet-cap-quyen/create', [ChiTietCapQuyenController::class, 'store']);
 Route::post('/admin/chi-tiet-cap-quyen/delete', [ChiTietCapQuyenController::class, 'destroy']);
-Route::post('admin/admin/doi-trang-thai', [AdminController::class,'doiTrangThai']);
+
+
+Route::post('admin/doi-trang-thai', [AdminController::class,'doiTrangThai']);
+Route::post('admin/hoc-vien/doi-trang-thai', [HocVienController::class,'doiTrangThaiHocVien']);
+Route::post('admin/to-chuc/doi-trang-thai', [ToChucCapChungChiController::class,'doiTrangThai']);
+
 
 
 
@@ -60,8 +65,6 @@ Route::post('/hoc-vien/update-mat-khau', [HocVienController::class,'updateMatKha
 Route::post('/hoc-vien/quen-mat-khau', [HocVienController::class, 'actionQuenmatKhau']);
 Route::post('/hoc-vien/lay-lai-mat-khau/{hash_reset}', [HocVienController::class, 'actionLayLaiMatKhau']);
 
-Route::post('admin/hoc-vien/doi-trang-thai', [HocVienController::class,'doiTrangThai']);
-
 
 
 
@@ -77,7 +80,7 @@ Route::post('/to-chuc/update-mat-khau', [ToChucCapChungChiController::class,'upd
 Route::post('/to-chuc/quen-mat-khau', [ToChucCapChungChiController::class, 'actionQuenmatKhau']);
 Route::post('/to-chuc/lay-lai-mat-khau/{hash_reset}', [ToChucCapChungChiController::class, 'actionLayLaiMatKhau']);
 
-Route::post('admin/to-chuc/doi-trang-thai', [ToChucCapChungChiController::class,'doiTrangThai']);
+
 
 Route::get('list-ten/to-chuc/data', [ToChucCapChungChiController::class,'getDataTen']);
 

@@ -184,37 +184,24 @@ class ToChucCapChungChiController extends Controller
     public function doiTrangThai(Request $request)
     {
 
-        $to_chuc = ToChucCapChungChi::where('id', $request->id)->first();
+        $tochuc = ToChucCapChungChi::where('id', $request->id)->first();
 
-        if ($to_chuc) {
-            if ($to_chuc->is_active == 0) {
-                $to_chuc->is_active = 1;
-                $to_chuc->save();
-
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã Kích Hoạt Tài Khoản Thành Công"
-                ]);
-            } else if ($to_chuc->is_active == 1) {
-                $to_chuc->is_active = 2;
-                $to_chuc->save();
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã Khóa Tài Khoản Thành Công"
-                ]);
-            } else if($to_chuc->is_active == 2){
-                $to_chuc->is_active = 1;
-                $to_chuc->save();
-
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã Mở Khóa Tài Khoản Thành Công"
-                ]);
+        if ($tochuc) {
+            if ($tochuc->is_duyet == 0) {
+                $tochuc->is_duyet = 1;
+            } else {
+                $tochuc->is_duyet = 0;
             }
+            $tochuc->save();
+
+            return response()->json([
+                'status'    =>   true,
+                'message'   =>   'Đã đổi trạng thái học viên ' . $tochuc->ho_ten . '!',
+            ]);
         } else {
             return response()->json([
-                'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'status'    =>   false,
+                'message'   =>   'Không tìm được học viên để cập nhật!'
             ]);
         }
     }

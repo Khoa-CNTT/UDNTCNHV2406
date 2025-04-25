@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\AdminQuenMatKhau;
+use App\Models\HocVien;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,7 +17,9 @@ class AdminController extends Controller
 {
     public function getData()
     {
-        $data = Admin::select()->get();
+        $data = Admin::join('chuc_vus', 'admins.id_chuc_vu', 'chuc_vus.id')
+            ->select('admins.*', 'chuc_vus.ten_chuc_vu')
+            ->get();
         return response()->json([
             'data' => $data,
         ]);
@@ -220,28 +223,23 @@ class AdminController extends Controller
         $admin = Admin::where('id', $request->id)->first();
 
         if ($admin) {
-            if ($admin->is_active == 1) {
-                $admin->is_active = 2;
-                $admin->save();
-
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã Khóa Tài Khoản Thành Công"
-                ]);
-            } else if ($admin->is_active == 2) {
-                $admin->is_active = 1;
-                $admin->save();
-
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã Mở Khóa Tài Khoản Thành Công"
-                ]);
+            if ($admin->is_duyet == 0) {
+                $admin->is_duyet = 1;
+            } else {
+                $admin->is_duyet = 0;
             }
+            $admin->save();
+
+            return response()->json([
+                'status'    =>   true,
+                'message'   =>   'Đã đổi trạng thái nhân viên ' . $admin->ho_ten . '!',
+            ]);
         } else {
             return response()->json([
-                'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'status'    =>   false,
+                'message'   =>   'Không tìm được đại lý để cập nhật!'
             ]);
         }
     }
+    
 }

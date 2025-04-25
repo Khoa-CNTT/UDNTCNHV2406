@@ -216,39 +216,28 @@ class HocVienController extends Controller
             ]);
         }
     }
-    public function doiTrangThai(Request $request)
+
+    public function doiTrangThaiHocVien(Request $request)
     {
-        $hoc_vien = HocVien::where('id', $request->id)->first();
-        if ($hoc_vien) {
-            if ($hoc_vien->is_active == 0) {
-                $hoc_vien->is_active = 1;
-                $hoc_vien->save();
 
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã Kích Hoạt Tài Khoản Thành Công"
-                ]);
-            } else if ($hoc_vien->is_active == 1) {
-                $hoc_vien->is_active = 2;
-                $hoc_vien->save();
+        $hocvien = HocVien::where('id', $request->id)->first();
 
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã Khóa Tài Khoản Thành Công"
-                ]);
-            } else if($hoc_vien->is_active == 2) {
-                $hoc_vien->is_active = 1;
-                $hoc_vien->save();
-
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã Mở Khóa Tài Khoản Thành Công"
-                ]);
+        if ($hocvien) {
+            if ($hocvien->is_duyet == 0) {
+                $hocvien->is_duyet = 1;
+            } else {
+                $hocvien->is_duyet = 0;
             }
+            $hocvien->save();
+
+            return response()->json([
+                'status'    =>   true,
+                'message'   =>   'Đã đổi trạng thái học viên ' . $hocvien->ho_ten . '!',
+            ]);
         } else {
             return response()->json([
-                'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'status'    =>   false,
+                'message'   =>   'Không tìm được học viên để cập nhật!'
             ]);
         }
     }
