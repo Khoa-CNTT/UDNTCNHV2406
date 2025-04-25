@@ -7,59 +7,61 @@ use Illuminate\Http\Request;
 
 class ChucVuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function getDataChucVu()
     {
-        //
+        $data = ChucVu::select()->get();
+        return response()->json([
+            'data' => $data,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function createDataChucVu(Request $request)
     {
-        //
+        ChucVu::create([
+            'ten_chuc_vu' => $request->ten_chuc_vu,
+        ]);
+        return response()->json([
+            'message'  =>   'Thêm Chức Vụ Thành Công.',
+            'status'   =>   true
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function deleteChucVu($id)
     {
-        //
-    }
+        $ten_chuc_vu = ChucVu::where('id', $id)->first();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ChucVu $chucVu)
-    {
-        //
-    }
+        if($ten_chuc_vu) {
+            $ten_chuc_vu->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ChucVu $chucVu)
-    {
-        //
+            return response()->json([
+                'status' => true,
+                'message' => "Đã xóa chức vụ thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có Lỗi"
+            ]);
+        }
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ChucVu $chucVu)
+    public function UpateChucVu(Request $request)
     {
-        //
-    }
+        $ten_chuc_vu = ChucVu::where('id', $request->id)->first();
+        if($ten_chuc_vu) {
+            $ten_chuc_vu->update([
+                'ten_chuc_vu'             => $request->ten_chuc_vu,
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ChucVu $chucVu)
-    {
-        //
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => "Cập Nhật tên quyền thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có Lỗi"
+            ]);
+        }
     }
 }

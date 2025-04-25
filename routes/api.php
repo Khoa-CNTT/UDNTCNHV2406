@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BaoCaoController;
+use App\Http\Controllers\ChiTietCapQuyenController;
 use App\Http\Controllers\ChiTietDonHangController;
+use App\Http\Controllers\ChucNangController;
+use App\Http\Controllers\ChucVuController;
 use App\Http\Controllers\ChungChiController;
 use App\Http\Controllers\CoQuanXacThucController;
 use App\Http\Controllers\DonHangController;
@@ -15,6 +18,7 @@ use App\Http\Controllers\ThongTinUploadController;
 use App\Http\Controllers\ToChucCapChungChiController;
 use App\Http\Controllers\UpFileImageController;
 use App\Http\Controllers\YeuCauCapController;
+use App\Models\ChiTietCapQuyen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +34,14 @@ Route::post('/admin/update-profile', [AdminController::class,'updateProfile']);
 Route::post('/admin/update-mat-khau', [AdminController::class,'updateMatKhau']);
 Route::post('/admin/quen-mat-khau', [AdminController::class, 'actionQuenmatKhau']);
 Route::post('/admin/lay-lai-mat-khau/{hash_reset}', [AdminController::class, 'actionLayLaiMatKhau']);
-
+Route::get('/admin/chuc-nang/data', [ChucNangController::class, 'getDataChucNang']);
+Route::get('/admin/chuc-vu/data', [ChucVuController::class, 'getDataChucVu']);
+Route::post('/admin/chuc-vu/create', [ChucVuController::class, 'createDataChucVu']);
+Route::delete('/admin/chuc-vu/delete/{id}', [ChucVuController::class, 'deleteChucVu']);
+Route::post('/admin/chuc-vu/update', [ChucVuController::class, 'UpateChucVu']);
+Route::get('/admin/chuc-nang-theo-chuc-vu/{id_chuc_vu}', [ChiTietCapQuyenController::class, 'loadchiTietChucNang']);
+Route::post('/admin/chi-tiet-cap-quyen/create', [ChiTietCapQuyenController::class, 'store']);
+Route::post('/admin/chi-tiet-cap-quyen/delete', [ChiTietCapQuyenController::class, 'destroy']);
 Route::post('admin/admin/doi-trang-thai', [AdminController::class,'doiTrangThai']);
 
 

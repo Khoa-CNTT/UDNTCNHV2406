@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('phan_quyens', function (Blueprint $table) {
+        Schema::create('chi_tiet_cap_quyens', function (Blueprint $table) {
             $table->id();
-            $table->string('ten_quyen');
-            $table->integer('is_quyen')->default(0);
+            $table->integer('id_chuc_vu');
+            $table->integer('id_chuc_nang');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('phan_quyens');
+        Schema::dropIfExists('chi_tiet_cap_quyens');
     }
 };
