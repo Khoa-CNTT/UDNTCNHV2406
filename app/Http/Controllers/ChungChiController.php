@@ -75,7 +75,6 @@ class ChungChiController extends Controller
         $check = $this->isUserHocVien();
         $data = ChungChi::join('hoc_viens', 'chung_chis.id_hoc_vien','hoc_viens.id')
         ->join('to_chuc_cap_chung_chis', 'chung_chis.id_to_chuc','to_chuc_cap_chung_chis.id')
-        ->whereColumn('chung_chis.id_to_chuc','to_chuc_cap_chung_chis.id')
         ->where('chung_chis.id_hoc_vien', $check->id)
             ->whereNull('chung_chis.token')
             ->select('chung_chis.*', 'hoc_viens.ho_ten','hoc_viens.email','hoc_viens.so_cccd' ,'hoc_viens.ngay_sinh', 'to_chuc_cap_chung_chis.ten_to_chuc')

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class GiaoDichController extends Controller
 {
@@ -23,13 +24,12 @@ class GiaoDichController extends Controller
         ];
 
         try {
-            $response = $client->post('http://103.137.185.71:2603/mb', [
+            $response = $client->post('https://api-mb.dzmid.io.vn/api/transactions', [
                 'json' => $payload
             ]);
 
             $data   = json_decode($response->getBody(), true);
             $duLieu = $data['data'];
-
             foreach ($duLieu as $key => $value) {
                 $giaoDich   = GiaoDich::where('pos', $value['pos'])
                     ->where('creditAmount', $value['creditAmount'])

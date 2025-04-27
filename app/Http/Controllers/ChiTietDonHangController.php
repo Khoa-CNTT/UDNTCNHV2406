@@ -61,7 +61,6 @@ class ChiTietDonHangController extends Controller
                 ->whereNull('chung_chis.token')
                 ->whereNull('chi_tiet_don_hangs.id_don_hang')
                 ->join('hoc_viens', 'hoc_viens.id', 'chung_chis.id_hoc_vien')
-                ->whereColumn('hoc_viens.id', 'chung_chis.id_hoc_vien')
                 ->select('chi_tiet_don_hangs.*', 'chung_chis.so_hieu_chung_chi', 'chung_chis.id_to_chuc', 'chung_chis.so_tien', 'chung_chis.hinh_anh', 'chung_chis.khoa_hoc', 'chung_chis.trinh_do', 'chung_chis.ngay_cap', 'chung_chis.ket_qua', 'chung_chis.tinh_trang', 'chung_chis.ghi_chu','hoc_viens.ho_ten','hoc_viens.ngay_sinh', 'hoc_viens.so_cccd')
                 ->get();
             return response()->json([

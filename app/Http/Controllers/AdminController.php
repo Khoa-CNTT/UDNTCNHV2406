@@ -56,7 +56,7 @@ class AdminController extends Controller
                     'message'  =>   'Đăng Nhập Thành Công.',
                     'status'   =>   true,
                     'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_admin')->plainTextToken,
-                    'ten_admin' =>   $user->email
+                    'ten_admin' =>   $user->ho_ten
                 ]);
             } else if ($user->is_duyet == 2) {
                 return response()->json([
@@ -241,5 +241,5 @@ class AdminController extends Controller
             ]);
         }
     }
-    
+
 }

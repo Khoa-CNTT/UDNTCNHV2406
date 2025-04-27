@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ThongBaoNguoiNhan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ThongBaoNguoiNhanController extends Controller
 {
@@ -17,7 +18,7 @@ class ThongBaoNguoiNhanController extends Controller
         if ($hoc_vien) {
             $data = ThongBaoNguoiNhan::join('thong_baos', 'thong_bao_nguoi_nhans.id_thong_bao', 'thong_baos.id')
                 ->where('thong_bao_nguoi_nhans.id_hoc_vien', $check->id)
-                ->select('thong_baos.tieu_de', 'thong_baos.noi_dung', 'thong_baos.created_at')
+                ->select('thong_bao_nguoi_nhans.*', 'thong_baos.tieu_de', 'thong_baos.noi_dung', 'thong_baos.created_at')
                 ->get();
             return response()->json([
                 'data' => $data,
@@ -32,31 +33,56 @@ class ThongBaoNguoiNhanController extends Controller
             ]);
         }
     }
+    public function xemChiTietThongBao($id)
+    {
+        $hoc_vien = $this->isUserHocVien();
+        $to_chuc = $this->isUserToChucCapChungChi();
+        if ($hoc_vien) {
+            $data = ThongBaoNguoiNhan::join('thong_baos', 'thong_bao_nguoi_nhans.id_thong_bao', 'thong_baos.id')
+                ->where('thong_bao_nguoi_nhans.id', $id)
+                ->where('thong_bao_nguoi_nhans.id_hoc_vien', $hoc_vien->id)
+                ->select('thong_bao_nguoi_nhans.*', 'thong_baos.tieu_de', 'thong_baos.noi_dung', 'thong_baos.created_at')
+                ->first();
+            return response()->json([
+                'data' => $data,
+            ]);
+        } else if ($to_chuc) {
+            $data = ThongBaoNguoiNhan::join('thong_baos', 'thong_bao_nguoi_nhans.id_thong_bao', 'thong_baos.id')
+                ->where('thong_bao_nguoi_nhans.id', $id)
+                ->where('thong_bao_nguoi_nhans.id_to_chuc', $to_chuc->id)
+                ->select('thong_bao_nguoi_nhans.*', 'thong_baos.tieu_de', 'thong_baos.noi_dung', 'thong_baos.created_at')
+                ->first();
+            return response()->json([
+                'data' => $data,
+            ]);
+        }
+    }
     public function xoaThongBao(Request $request)
     {
         $hoc_vien = $this->isUserHocVien();
         $to_chuc = $this->isUserToChucCapChungChi();
 
         try {
-            $ids = collect($request->ds_thong_bao_can_xoa)->pluck('id');
-
             if ($hoc_vien) {
-                ThongBaoNguoiNhan::where('id_hoc_vien', $hoc_vien->id)
-                    ->whereIn('id', $ids)
-                    ->delete();
-            } elseif ($to_chuc) {
-                ThongBaoNguoiNhan::where('id_to_chuc', $to_chuc->id)
-                    ->whereIn('id', $ids)
-                    ->delete();
+                foreach ($request->ds_thong_bao_can_xoa as $id) {
+                    ThongBaoNguoiNhan::where('id', $id)
+                        ->where('id_hoc_vien', $hoc_vien->id)
+                        ->delete();
+                }
+            } else if ($to_chuc) {
+                foreach ($request->ds_thong_bao_can_xoa as $id) {
+                    ThongBaoNguoiNhan::where('id', $id)->where('id_to_chuc', $to_chuc->id)
+                        ->delete();
+                }
             }
             return response()->json([
-                'status'    =>   true,
-                'message'   =>   'Đã Xóa Thành Công'
+                'status'    => true,
+                'message'   => 'Đã Xóa Thành Công'
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'status'    =>   false,
-                'message'   =>   'Có Lỗi Xảy Ra'
+                'status'    => false,
+                'message'   => 'Có Lỗi Xảy Ra'
             ]);
         }
     }

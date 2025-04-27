@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ToChucQuenMatKhau;
 use App\Models\ToChucCapChungChi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 class ToChucCapChungChiController extends Controller
 {
     public function dangKy(Request $request)
@@ -174,6 +176,42 @@ class ToChucCapChungChiController extends Controller
                     'message' => "Mật Khẩu Hiện Cũ Sai"
                 ]);
             }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có Lỗi Xảy Ra"
+            ]);
+        }
+    }
+    public function actionQuenmatKhau(Request $request)
+    {
+        $check = ToChucCapChungChi::where('email', $request->email)->first();
+        if ($check) {
+            $check->hash_reset = Str::uuid();
+            $check->save();
+            Mail::to($request->email)->send(new ToChucQuenMatKhau($check->hash_reset, $check->ten_to_chuc));
+            return response()->json([
+                'status' => true,
+                'message' => "Kiểm Tra Email"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có Lỗi Xảy Ra"
+            ]);
+        }
+    }
+    public function actionLayLaiMatKhau($hash_reset, Request $request)
+    {
+        $check = ToChucCapChungChi::where('hash_reset', $hash_reset)->first();
+        if ($check) {
+            $check->password = bcrypt($request->password);
+            $check->hash_reset = null;
+            $check->save();
+            return response()->json([
+                'status' => true,
+                'message' => "Mật Khẩu Đã Được Đổi Thành Công"
+            ]);
         } else {
             return response()->json([
                 'status' => false,

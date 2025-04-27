@@ -65,7 +65,7 @@ class ThongBaoController extends Controller
                                 'id_thong_bao' => $tb->id,
                                 'id_hoc_vien' => $tb->id_hoc_vien,
                             ]);
-                        } elseif ($tb->doi_tuong == 2) {
+                        } else if ($tb->doi_tuong == 2) {
                             ThongBaoNguoiNhan::create([
                                 'id_thong_bao' => $tb->id,
                                 'id_to_chuc' => $tb->id_to_chuc,
@@ -91,8 +91,16 @@ class ThongBaoController extends Controller
             ]);
         }
     }
-    public function getData(){
-      $data = ThongBao::get();
+    public function getData()
+    {
+        $data = ThongBao::leftJoin('hoc_viens', 'thong_baos.id_hoc_vien', '=', 'hoc_viens.id')
+            ->leftJoin('to_chuc_cap_chung_chis', 'thong_baos.id_to_chuc', '=', 'to_chuc_cap_chung_chis.id')
+            ->select(
+                'thong_baos.*',
+                'hoc_viens.email as email_hv',
+                'to_chuc_cap_chung_chis.email as email_tc'
+            )
+            ->get();
         return response([
             'data' => $data,
         ]);

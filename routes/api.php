@@ -9,6 +9,7 @@ use App\Http\Controllers\ChucVuController;
 use App\Http\Controllers\ChungChiController;
 use App\Http\Controllers\CoQuanXacThucController;
 use App\Http\Controllers\DonHangController;
+use App\Http\Controllers\GiaoDichController;
 use App\Http\Controllers\HocVienController;
 use App\Http\Controllers\LichSuGiaoDichController;
 use App\Http\Controllers\ThongBaoController;
@@ -22,6 +23,9 @@ use App\Http\Controllers\YeuCauCapController;
 use App\Models\ChiTietCapQuyen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+
+Route::get('/xem-giao-dich', [GiaoDichController::class, 'index']);
 
 
 Route::get('/admin/data', [AdminController::class,'getData']);
@@ -94,6 +98,7 @@ Route::get('/admin/data-thong-bao', [ThongBaoController::class,'getData']);
 
 
 Route::get('/xem-thong-bao', [ThongBaoNguoiNhanController::class,'xemThongBao']);
+Route::get('/xem-chi-tiet-thong-bao/{id}', [ThongBaoNguoiNhanController::class,'xemChiTietThongBao']);
 Route::post('/xoa-thong-bao', [ThongBaoNguoiNhanController::class,'xoaThongBao']);
 
 
@@ -124,6 +129,8 @@ Route::get('/get-yeu-cau-cap-data', [YeuCauCapController::class, 'getData']);
 
 
 Route::post('/upload-folder', [UpFileImageController::class, 'uploadFolder']);
+
+
 
 
 Route::post('/import-excel', [ThongTinUploadController::class, 'import']);
