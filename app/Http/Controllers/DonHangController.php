@@ -53,7 +53,7 @@ class DonHangController extends Controller
                     $qr_link   =   "https://img.vietqr.io/image/MB-0347341227-qr_only.png?amount=" . $tong_tien_thanh_toan . "&addInfo=" . $ma_don_hang;
 
                     DeleteUnpaidOrder::dispatch($don_hang->id)
-                        ->delay(now()->addMinutes(1));
+                        ->delay(now()->addMinutes(2));
 
                     return response()->json([
                         'status' => true,
