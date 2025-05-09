@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Mail\HocVienQuenMatKhau;
 use App\Models\HocVien;
+use App\Models\ViNft;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use PhpParser\Node\Expr\FuncCall;
+
 class HocVienController extends Controller
 {
     public function dangKy(Request $request)
@@ -223,11 +226,14 @@ class HocVienController extends Controller
         $hocvien = HocVien::where('id', $request->id)->first();
 
         if ($hocvien) {
-            if ($hocvien->is_duyet == 0) {
+            if ($hocvien->is_duyet == 0) { // Chưa Duyệt sẽ thành Duyệt
                 $hocvien->is_duyet = 1;
-            } else {
-                $hocvien->is_duyet = 0;
+            } else if ($hocvien->is_duyet == 1) { // Duyệt sẽ thành Khóa
+                $hocvien->is_duyet = 2;
+            } else if ($hocvien->is_duyet == 2) { // Khóa sẽ thành Chưa Duyệt
+                $hocvien->is_duyet = 1;
             }
+
             $hocvien->save();
 
             return response()->json([
@@ -238,6 +244,44 @@ class HocVienController extends Controller
             return response()->json([
                 'status'    =>   false,
                 'message'   =>   'Không tìm được học viên để cập nhật!'
+            ]);
+        }
+    }
+
+    public function capNhatDiaChiVi(Request $request)
+    {
+        $this->isUserHocVien();
+
+        $user = Auth::guard('sanctum')->user();
+        $check = ViNft::where('id_hoc_vien', $user->id)->first();
+        if($check) {
+            $check->dia_chi_vi = $request->dia_chi_vi;
+            $check->save();
+        } else {
+            ViNft::create([
+                'id_hoc_vien' => $user->id,
+                'dia_chi_vi'  => $request->dia_chi_vi,
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'message' => "Cập Nhật Địa Chỉ Ví Thành Công"
+        ]);
+    }
+
+    public function getDataDiaChiVi()
+    {
+        $this->isUserHocVien();
+        $user = Auth::guard('sanctum')->user();
+        $check = ViNft::where('id_hoc_vien', $user->id)->first();
+        if($check) {
+            return response()->json([
+                'dia_chi_vi' => $check->dia_chi_vi,
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'dia_chi_vi' => null,
             ]);
         }
     }

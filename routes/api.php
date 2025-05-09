@@ -49,9 +49,12 @@ Route::post('/admin/chi-tiet-cap-quyen/create', [ChiTietCapQuyenController::clas
 Route::post('/admin/chi-tiet-cap-quyen/delete', [ChiTietCapQuyenController::class, 'destroy']);
 
 
-Route::post('admin/doi-trang-thai', [AdminController::class,'doiTrangThai']);
-Route::post('admin/hoc-vien/doi-trang-thai', [HocVienController::class,'doiTrangThaiHocVien']);
-Route::post('admin/to-chuc/doi-trang-thai', [ToChucCapChungChiController::class,'doiTrangThai']);
+Route::post('/admin/doi-trang-thai', [AdminController::class,'doiTrangThai']);
+Route::post('/admin/hoc-vien/doi-trang-thai', [HocVienController::class,'doiTrangThaiHocVien']);
+Route::post('/admin/to-chuc/doi-trang-thai', [ToChucCapChungChiController::class,'doiTrangThai']);
+
+Route::get('/admin/cap-nft/data', [ChungChiController::class,'getDataCapNft']);
+Route::post('/admin/cap-nft/create', [ChungChiController::class,'createCapNft']);
 
 
 
@@ -69,7 +72,8 @@ Route::post('/hoc-vien/update-mat-khau', [HocVienController::class,'updateMatKha
 Route::post('/hoc-vien/quen-mat-khau', [HocVienController::class, 'actionQuenmatKhau']);
 Route::post('/hoc-vien/lay-lai-mat-khau/{hash_reset}', [HocVienController::class, 'actionLayLaiMatKhau']);
 
-
+Route::post('/hoc-vien/dia-chi-vi/update', [HocVienController::class, 'capNhatDiaChiVi']);
+Route::get('/hoc-vien/dia-chi-vi', [HocVienController::class, 'getDataDiaChiVi']);
 
 
 Route::post('/to-chuc/dang-ky', [ToChucCapChungChiController::class,'dangKy']);
@@ -111,6 +115,7 @@ Route::get('/hoc-vien/can-thanh-toan', [ChiTietDonHangController::class,'getData
 Route::post('/hoc-vien/xoa-don-chi-tiet', [ChiTietDonHangController::class,'xoaDonChiTiet']);
 
 
+Route::get('/admin/quan-ly-chung-chi/data', [ChungChiController::class,'getDataADChungChi']);
 Route::get('/hoc-vien/chung-chi-chua-cap', [ChungChiController::class,'getDataHv']);
 Route::get('/hoc-vien/chung-chi-nft', [ChungChiController::class,'getDataNft']);
 Route::get('/to-chuc/chung-chi-nft', [ChungChiController::class,'getDataTc']);
