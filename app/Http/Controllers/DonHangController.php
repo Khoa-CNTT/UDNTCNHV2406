@@ -80,4 +80,15 @@ class DonHangController extends Controller
             ]);
         }
     }
+    public function getHocVienLichSuGiaoDich(){
+        $check = $this->isUserHocVien();
+        if($check){
+            $don_hang = DonHang::where('id_hoc_vien', $check->id)
+            ->where('is_thanh_toan',1)
+            ->get();
+             return response()->json([
+               'data'=> $don_hang
+            ]);
+        }
+    }
 }

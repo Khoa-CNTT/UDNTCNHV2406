@@ -2,64 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChungChi;
+use App\Models\DonHang;
 use App\Models\ThongKe;
 use Illuminate\Http\Request;
 
 class ThongKeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function getThongKeDoanhThu()
     {
-        //
+        $data = DonHang::where('is_thanh_toan',1)
+        ->get();
+        return response()->json([
+            'data' => $data,
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function getThongKeNFTDaCap()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ThongKe $thongKe)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ThongKe $thongKe)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ThongKe $thongKe)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ThongKe $thongKe)
-    {
-        //
+        $data = ChungChi::where('tinh_trang',2)
+        ->get();
+        return response()->json([
+            'data' => $data,
+        ]);
     }
 }

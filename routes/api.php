@@ -12,6 +12,7 @@ use App\Http\Controllers\DonHangController;
 use App\Http\Controllers\GiaoDichController;
 use App\Http\Controllers\HocVienController;
 use App\Http\Controllers\LichSuGiaoDichController;
+use App\Http\Controllers\NftGuiDenController;
 use App\Http\Controllers\ThongBaoController;
 use App\Http\Controllers\ThongBaoNguoiNhanController;
 use App\Http\Controllers\ThongKeController;
@@ -20,8 +21,7 @@ use App\Http\Controllers\ToChucCapChungChiController;
 use App\Http\Controllers\UpFileImageController;
 use App\Http\Controllers\ViNftController;
 use App\Http\Controllers\YeuCauCapController;
-use App\Models\ChiTietCapQuyen;
-use Illuminate\Http\Request;
+use App\Models\NftGuiDen;
 use Illuminate\Support\Facades\Route;
 
 
@@ -109,6 +109,8 @@ Route::post('/xoa-thong-bao', [ThongBaoNguoiNhanController::class,'xoaThongBao']
 
 Route::post('/hoc-vien/thanh-toan', [DonHangController::class,'actionThanhToan']);//bước 2
 
+Route::get('/hoc-vien/lich-su-giao-dich', [DonHangController::class,'getHocVienLichSuGiaoDich']);
+
 
 Route::post('/them-vao-thanh-toan', [ChiTietDonHangController::class,'themVaoThanhToan']); //bước1
 Route::get('/hoc-vien/can-thanh-toan', [ChiTietDonHangController::class,'getData']);
@@ -142,7 +144,20 @@ Route::post('/import-excel', [ThongTinUploadController::class, 'import']);
 Route::get('/get-data', [ThongTinUploadController::class, 'getData']);
 
 
-Route::get('hoc-vien/vi-nft/get-data', [ViNftController::class, 'getDataViHV']);
+Route::get('/hoc-vien/vi-nft/get-data', [ViNftController::class, 'getDataViHV']);
+
+
+Route::get('/admin/thong-ke-doanh-thu/data', [ThongKeController::class, 'getThongKeDoanhThu']);
+Route::get('/admin/thong-ke-nft-da-cap/data', [ThongKeController::class, 'getThongKeNFTDaCap']);
+
+
+Route::post('/hoc-vien/gui-nft', [NftGuiDenController::class, 'guiNFT']);
+Route::get('/hoc-vien/nhan-nft', [NftGuiDenController::class, 'nhanNFT']);
+Route::get('/hoc-vien/nhan-nft/chi-tiet/{id}', [NftGuiDenController::class,'xemChiTietNFTGuiDen']);
+Route::post('/xoa-NFT-gui-den', [NftGuiDenController::class,'xoaNFTGuiDen']);
+
+
+Route::get('/hoc-vien/nhan-nft/chi-tiet/{id}', [NftGuiDenController::class,'xemChiTietNFTGuiDen']);
 
 
 
