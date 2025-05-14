@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChiTietCapQuyen;
 use App\Models\ChungChi;
 use App\Models\HocVien;
 use App\Models\ThongTinUpload;
@@ -138,6 +139,16 @@ class ChungChiController extends Controller
     }
     public function getDataADChungChi()
     {
+        $id_chuc_nang = 4;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
+
         $check = $this->isUserAdmin();
         $data = ChungChi::join('hoc_viens', 'chung_chis.id_hoc_vien','hoc_viens.id')
         ->join('to_chuc_cap_chung_chis', 'chung_chis.id_to_chuc','to_chuc_cap_chung_chis.id')
@@ -150,6 +161,15 @@ class ChungChiController extends Controller
 
     public function getDataCapNft()
     {
+        $id_chuc_nang = 4;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
         $check = $this->isUserAdmin();
         $data  = ChungChi::join('hoc_viens', 'chung_chis.id_hoc_vien','hoc_viens.id')
                          ->join('to_chuc_cap_chung_chis', 'chung_chis.id_to_chuc','to_chuc_cap_chung_chis.id')
@@ -187,6 +207,17 @@ class ChungChiController extends Controller
 
     public function createCapNft(Request $request)
     {
+        $id_chuc_nang = 1;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
+
+        
         $this->isUserAdmin();
         $sinh_vien = HocVien::where('hoc_viens.id', $request->id_hoc_vien)
                             ->join('vi_nfts', 'hoc_viens.id', 'vi_nfts.id_hoc_vien')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChiTietCapQuyen;
 use App\Models\HocVien;
 use App\Models\ThongBao;
 use App\Models\ThongBaoNguoiNhan;
@@ -12,6 +13,15 @@ class ThongBaoController extends Controller
 {
     public function guiThongBao(Request $request)
     {
+        $id_chuc_nang = 6;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
         try {
             $tb = ThongBao::create([
                 'tieu_de' => $request->tieu_de,
@@ -93,6 +103,16 @@ class ThongBaoController extends Controller
     }
     public function getData()
     {
+        $id_chuc_nang = 6;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
+
         $data = ThongBao::leftJoin('hoc_viens', 'thong_baos.id_hoc_vien', '=', 'hoc_viens.id')
             ->leftJoin('to_chuc_cap_chung_chis', 'thong_baos.id_to_chuc', '=', 'to_chuc_cap_chung_chis.id')
             ->select(

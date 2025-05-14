@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\AdminQuenMatKhau;
+use App\Models\ChiTietCapQuyen;
 use App\Models\HocVien;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +27,16 @@ class AdminController extends Controller
     }
     public function dangKy(Request $request)
     {
+        $id_chuc_nang = 2;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
+
         Admin::create([
             'email' => $request->email,
             'password' => bcrypt($request->password),
@@ -134,6 +145,7 @@ class AdminController extends Controller
     public function updateProfile(Request $request)
     {
         $check = Auth::guard('sanctum')->user();
+
         if ($check) {
             Admin::where('id', $check->id)->update([
                 'email' => $request->email,
@@ -219,6 +231,15 @@ class AdminController extends Controller
     }
     public function doiTrangThai(Request $request)
     {
+        $id_chuc_nang = 2;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
 
         $admin = Admin::where('id', $request->id)->first();
 

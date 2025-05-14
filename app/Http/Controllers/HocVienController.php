@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\HocVienQuenMatKhau;
+use App\Models\ChiTietCapQuyen;
 use App\Models\HocVien;
 use App\Models\ViNft;
 use Illuminate\Http\Request;
@@ -68,6 +69,16 @@ class HocVienController extends Controller
     }
     public function getData()
     {
+        $id_chuc_nang = 2;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
+
         $data = HocVien::get();
         return response()->json([
             'data' => $data,
@@ -222,6 +233,15 @@ class HocVienController extends Controller
 
     public function doiTrangThaiHocVien(Request $request)
     {
+        $id_chuc_nang = 2;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
 
         $hocvien = HocVien::where('id', $request->id)->first();
 
