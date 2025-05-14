@@ -9,15 +9,6 @@ class ChiTietCapQuyenController extends Controller
 {
     public function loadchiTietChucNang($id_chuc_vu)
     {
-        $id_chuc_nang = 1;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
 
         $data = ChiTietCapQuyen::where('id_chuc_vu', $id_chuc_vu)
                                 ->join('chuc_nangs', 'chuc_nangs.id', 'chi_tiet_cap_quyens.id_chuc_nang')
@@ -30,7 +21,7 @@ class ChiTietCapQuyenController extends Controller
     }
     public function store(Request $request)
     {
-        $id_chuc_nang = 1;
+        $id_chuc_nang = 3;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -62,7 +53,7 @@ class ChiTietCapQuyenController extends Controller
     }
     public function destroy(Request $request)
     {
-        $id_chuc_nang = 1;
+        $id_chuc_nang = 4;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {

@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tinh_trang_chung_chis', function (Blueprint $table) {
+        Schema::create('nhan_thong_tin_lien_hes', function (Blueprint $table) {
             $table->id();
-            $table->integer('tinh_trang');
-            $table->string('mo_ta');
+            $table->string('ho_ten');
+            $table->string('sdt');
+            $table->string('tieu_de');
+            $table->string('noi_dung');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tinh_trang_chung_chis');
+        Schema::dropIfExists('nhan_thong_tin_lien_hes');
     }
 };

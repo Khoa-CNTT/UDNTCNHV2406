@@ -52,12 +52,12 @@ class ChungChiController extends Controller
     }
     public function changeVoHieuHoa(Request $request)
     {
-
+        $user = $this->isUserToChucCapChungChi();
         $chung_chi = ChungChi::where('id', $request->id)->first();
 
         if ($chung_chi) {
-            if ($chung_chi->tinh_trang == 1) {
-                $chung_chi->tinh_trang = 2;
+            if ($chung_chi->tinh_trang == 2) {
+                $chung_chi->tinh_trang = 3;
                 $chung_chi->ghi_chu = $request ->ghi_chu;
                 $chung_chi->save();
 
@@ -65,8 +65,8 @@ class ChungChiController extends Controller
                     'status' => true,
                     'message' => "Đã Vô Hiêu Hóa Thành Công"
                 ]);
-            } else if ($chung_chi->tinh_trang == 2) {
-                $chung_chi->tinh_trang = 1;
+            } else if ($chung_chi->tinh_trang == 3) {
+                $chung_chi->tinh_trang = 2;
                 $chung_chi->ghi_chu = null;
                 $chung_chi->save();
 
@@ -139,16 +139,6 @@ class ChungChiController extends Controller
     }
     public function getDataADChungChi()
     {
-        $id_chuc_nang = 4;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
-
         $check = $this->isUserAdmin();
         $data = ChungChi::join('hoc_viens', 'chung_chis.id_hoc_vien','hoc_viens.id')
         ->join('to_chuc_cap_chung_chis', 'chung_chis.id_to_chuc','to_chuc_cap_chung_chis.id')
@@ -161,15 +151,6 @@ class ChungChiController extends Controller
 
     public function getDataCapNft()
     {
-        $id_chuc_nang = 4;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
         $check = $this->isUserAdmin();
         $data  = ChungChi::join('hoc_viens', 'chung_chis.id_hoc_vien','hoc_viens.id')
                          ->join('to_chuc_cap_chung_chis', 'chung_chis.id_to_chuc','to_chuc_cap_chung_chis.id')
@@ -207,17 +188,6 @@ class ChungChiController extends Controller
 
     public function createCapNft(Request $request)
     {
-        $id_chuc_nang = 1;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
-
-        
         $this->isUserAdmin();
         $sinh_vien = HocVien::where('hoc_viens.id', $request->id_hoc_vien)
                             ->join('vi_nfts', 'hoc_viens.id', 'vi_nfts.id_hoc_vien')

@@ -27,7 +27,7 @@ class AdminController extends Controller
     }
     public function dangKy(Request $request)
     {
-        $id_chuc_nang = 2;
+        $id_chuc_nang = 1;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -99,7 +99,7 @@ class AdminController extends Controller
     }
     public function dangXuat()
     {
-        $check = Auth::guard('sanctum')->user();
+        $check = $this->isUserAdmin();
         if ($check) {
             DB::table('personal_access_tokens')
                 ->where('id', $check->currentAccessToken()->id)->delete();
@@ -117,7 +117,7 @@ class AdminController extends Controller
     }
     public function dangXuatAll()
     {
-        $check = Auth::guard('sanctum')->user();
+        $check = $this->isUserAdmin();
         if ($check) {
             $ds_token = $check->tokens;
             foreach ($ds_token as $k => $v) {
@@ -137,7 +137,11 @@ class AdminController extends Controller
     }
     public function Profile()
     {
-        $data = Auth::guard('sanctum')->user();
+       $check = $this->isUserAdmin();
+       $data = Admin::where('admins.id', $check->id)
+       ->join('chuc_vus', 'admins.id_chuc_vu', 'chuc_vus.id')
+       ->select('admins.*', 'chuc_vus.ten_chuc_vu')
+       ->first();
         return response()->json([
             'data' => $data,
         ]);
@@ -261,6 +265,26 @@ class AdminController extends Controller
                 'message'   =>   'Không tìm được đại lý để cập nhật!'
             ]);
         }
+    }
+    public function getTKTimKiem(Request $request)
+    {
+        $tim_kiem = "%" . $request->tim . "%";
+
+        $data = Admin::join('chuc_vus', 'admins.id_chuc_vu', '=', 'chuc_vus.id')
+            ->select('admins.*', 'chuc_vus.ten_chuc_vu')
+            ->where('admins.ho_ten', 'like', $tim_kiem)
+            ->orWhere('admins.email', 'like', $tim_kiem)
+            ->get();
+        if ($data->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Không tìm thấy kết quả'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $data
+        ]);
     }
 
 }

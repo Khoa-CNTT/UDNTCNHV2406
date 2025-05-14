@@ -54,13 +54,13 @@ class HocVienController extends Controller
                     'message'  =>   'Vui Lòng Đợi Duyệt Tài Khoản',
                     'status'   =>   false
                 ]);
-            } else if($user->is_duyet == 2) {
+            } else if ($user->is_duyet == 2) {
                 return response()->json([
                     'message'  =>   'Tài Khoản Đã Bị Khóa',
                     'status'   =>   false,
                 ]);
             }
-        }else{
+        } else {
             return response()->json([
                 'message'  =>   'Sai Thông Tin Đăng Nhập.',
                 'status'   =>   false,
@@ -69,16 +69,6 @@ class HocVienController extends Controller
     }
     public function getData()
     {
-        $id_chuc_nang = 2;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
-
         $data = HocVien::get();
         return response()->json([
             'data' => $data,
@@ -233,24 +223,14 @@ class HocVienController extends Controller
 
     public function doiTrangThaiHocVien(Request $request)
     {
-        $id_chuc_nang = 2;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
-
         $hocvien = HocVien::where('id', $request->id)->first();
 
         if ($hocvien) {
-            if ($hocvien->is_duyet == 0) { // Chưa Duyệt sẽ thành Duyệt
+            if ($hocvien->is_duyet == 0) {
                 $hocvien->is_duyet = 1;
-            } else if ($hocvien->is_duyet == 1) { // Duyệt sẽ thành Khóa
+            } else if ($hocvien->is_duyet == 1) {
                 $hocvien->is_duyet = 2;
-            } else if ($hocvien->is_duyet == 2) { // Khóa sẽ thành Chưa Duyệt
+            } else if ($hocvien->is_duyet == 2) { 
                 $hocvien->is_duyet = 1;
             }
 
@@ -274,7 +254,7 @@ class HocVienController extends Controller
 
         $user = Auth::guard('sanctum')->user();
         $check = ViNft::where('id_hoc_vien', $user->id)->first();
-        if($check) {
+        if ($check) {
             $check->dia_chi_vi = $request->dia_chi_vi;
             $check->save();
         } else {
@@ -294,7 +274,7 @@ class HocVienController extends Controller
         $this->isUserHocVien();
         $user = Auth::guard('sanctum')->user();
         $check = ViNft::where('id_hoc_vien', $user->id)->first();
-        if($check) {
+        if ($check) {
             return response()->json([
                 'dia_chi_vi' => $check->dia_chi_vi,
             ]);
@@ -304,5 +284,23 @@ class HocVienController extends Controller
                 'dia_chi_vi' => null,
             ]);
         }
+    }
+    public function getTKTimKiem(Request $request)
+    {
+        $tim_kiem = "%" . $request->tim . "%";
+
+        $data = HocVien::where('ho_ten', 'like', $tim_kiem)
+            ->orWhere('email', 'like', $tim_kiem)
+            ->get();
+        if ($data->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Không tìm thấy kết quả'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $data
+        ]);
     }
 }

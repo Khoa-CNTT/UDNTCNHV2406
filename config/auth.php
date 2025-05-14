@@ -48,10 +48,6 @@ return [
             'driver' => 'session',
             'provider' => 'hoc_vien',
         ],
-        'co_quan_xac_thuc' => [
-            'driver' => 'session',
-            'provider' => 'co_quan_xac_thuc',
-        ],
         'to_chuc_cap_chung_chi' => [
             'driver' => 'session',
             'provider' => 'to_chuc_cap_chung_chi',
@@ -87,10 +83,6 @@ return [
         'hoc_vien' => [
             'driver' => 'eloquent',
             'model' => App\Models\HocVien::class,
-        ],
-        'co_quan_xac_thuc' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\CoQuanXacThuc::class,
         ],
         'to_chuc_cap_chung_chi' => [
             'driver' => 'eloquent',

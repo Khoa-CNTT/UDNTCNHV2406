@@ -11,15 +11,7 @@ class ChucVuController extends Controller
 {
     public function getDataChucVu()
     {
-        $id_chuc_nang = 1;
         $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
 
         $data = ChucVu::select()->get();
         return response()->json([
@@ -29,7 +21,7 @@ class ChucVuController extends Controller
 
     public function createDataChucVu(Request $request)
     {
-        $id_chuc_nang = 1;
+        $id_chuc_nang = 5;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -50,7 +42,7 @@ class ChucVuController extends Controller
 
     public function deleteChucVu($id)
     {
-        $id_chuc_nang = 1;
+        $id_chuc_nang = 6;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -66,7 +58,7 @@ class ChucVuController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Đã xóa chức vụ thành công!"
+                'message' => "Đã xóa chức vụ thành công"
             ]);
         } else {
             return response()->json([
@@ -77,7 +69,7 @@ class ChucVuController extends Controller
     }
     public function UpateChucVu(Request $request)
     {
-        $id_chuc_nang = 1;
+        $id_chuc_nang = 7;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -95,7 +87,7 @@ class ChucVuController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Cập Nhật tên quyền thành công!"
+                'message' => "Cập Nhật Chức Vụ thành công"
             ]);
         } else {
             return response()->json([

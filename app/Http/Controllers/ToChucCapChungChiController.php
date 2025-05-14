@@ -68,16 +68,6 @@ class ToChucCapChungChiController extends Controller
     }
     public function getData()
     {
-        $id_chuc_nang = 2;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
-
         $data = ToChucCapChungChi::select()->get();
         return response()->json([
             'data' => $data,
@@ -232,17 +222,6 @@ class ToChucCapChungChiController extends Controller
     }
     public function doiTrangThai(Request $request)
     {
-
-        $id_chuc_nang = 2;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
-
         $tochuc = ToChucCapChungChi::where('id', $request->id)->first();
 
         if ($tochuc) {
@@ -269,6 +248,24 @@ class ToChucCapChungChiController extends Controller
         $data = ToChucCapChungChi::select('id','ten_to_chuc')->get();
         return response()->json([
             'data' => $data,
+        ]);
+    }
+    public function getTKTimKiem(Request $request)
+    {
+        $tim_kiem = "%" . $request->tim . "%";
+
+        $data = ToChucCapChungChi::where('ten_to_chuc', 'like', $tim_kiem)
+            ->orWhere('email', 'like', $tim_kiem)
+            ->get();
+        if ($data->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Không tìm thấy kết quả'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $data
         ]);
     }
 }
