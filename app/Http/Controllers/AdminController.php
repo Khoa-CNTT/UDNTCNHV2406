@@ -286,5 +286,40 @@ class AdminController extends Controller
             'data' => $data
         ]);
     }
+    public function updateChucVuNhanVien(Request $request)
+    {
+        $id_chuc_nang = 7;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
+        $check = $this->isUserAdmin();
+        if ($check) {
+            $doi = Admin::where('id', $request->id)->first();
+            if ($doi) {
+                $doi->update([
+                    'id_chuc_vu' =>  $request->id_chuc_vu,
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đổi Thành Công"
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "Có Lỗi Xảy Ra"
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có Lỗi Xảy Ra"
+            ]);
+        }
+    }
 
 }

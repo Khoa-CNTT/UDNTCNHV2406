@@ -64,7 +64,7 @@ class ThongTinUploadController extends Controller
         if ($to_chuc) {
             $data = ThongTinUpload::where('id_to_chuc', $to_chuc->id)
                 ->get();
-            return response()->json([$data]);
+            return response()->json(['data'=>$data]);
         }
     }
 }

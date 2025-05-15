@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChungChi;
 use App\Models\DonHang;
 use App\Models\GiaoDich;
 use Illuminate\Http\Request;
@@ -56,6 +57,7 @@ class GiaoDichController extends Controller
                         if (preg_match('/HDBD(\d+)/', $description, $matches)) {
                             $maDonHang = $matches[0];
 
+
                             $donHang = DonHang::where('ma_don_hang', $maDonHang)
                                 ->where('tong_tien_thanh_toan', '<=', $value['creditAmount'])
                                 ->first();
@@ -64,6 +66,16 @@ class GiaoDichController extends Controller
                                 $donHang->is_thanh_toan = 1;
                                 $donHang->save();
                                 Log::info('Cập nhật đơn hàng thành công: ' . $maDonHang);
+
+                                $chung_chis = ChungChi::join('chi_tiet_don_hangs', 'chi_tiet_don_hangs.id_chung_chi', '=', 'chung_chis.id')
+                                    ->where('chi_tiet_don_hangs.id_don_hang', $donHang->id)
+                                    ->select('chung_chis.*') // Chỉ lấy bảng chính
+                                    ->get();
+
+                                foreach ($chung_chis as $chung_chi) {
+                                    $chung_chi->tinh_trang = 1;
+                                    $chung_chi->save();
+                                }
                             } else {
                                 Log::warning('Không tìm thấy đơn hàng tương ứng cho mã: ' . $maDonHang);
                             }

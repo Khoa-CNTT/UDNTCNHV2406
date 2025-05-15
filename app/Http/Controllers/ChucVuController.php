@@ -69,15 +69,7 @@ class ChucVuController extends Controller
     }
     public function UpateChucVu(Request $request)
     {
-        $id_chuc_nang = 7;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
+        
         $ten_chuc_vu = ChucVu::where('id', $request->id)->first();
         if ($ten_chuc_vu) {
             $ten_chuc_vu->update([
@@ -96,4 +88,5 @@ class ChucVuController extends Controller
             ]);
         }
     }
+
 }

@@ -46,6 +46,8 @@ Route::get('/admin/chuc-nang-theo-chuc-vu/{id_chuc_vu}', [ChiTietCapQuyenControl
 Route::post('/admin/chi-tiet-cap-quyen/create', [ChiTietCapQuyenController::class, 'store']);
 Route::post('/admin/chi-tiet-cap-quyen/delete', [ChiTietCapQuyenController::class, 'destroy']);
 
+Route::post('/admin/chuc-vu-nhan-vien/update', [AdminController::class,'updateChucVuNhanVien']);
+
 
 Route::post('/admin/doi-trang-thai', [AdminController::class,'doiTrangThai']);
 Route::post('/admin/hoc-vien/doi-trang-thai', [HocVienController::class,'doiTrangThaiHocVien']);

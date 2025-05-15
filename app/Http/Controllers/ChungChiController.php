@@ -88,7 +88,7 @@ class ChungChiController extends Controller
         $data = ChungChi::join('hoc_viens', 'chung_chis.id_hoc_vien','hoc_viens.id')
         ->join('to_chuc_cap_chung_chis', 'chung_chis.id_to_chuc','to_chuc_cap_chung_chis.id')
         ->where('chung_chis.id_hoc_vien', $check->id)
-            ->whereNull('chung_chis.token')
+            ->where('chung_chis.tinh_trang', ChungChi::TINH_TRANG_CHO_THANH_TOAN)
             ->select('chung_chis.*', 'hoc_viens.ho_ten','hoc_viens.email','hoc_viens.so_cccd' ,'hoc_viens.ngay_sinh', 'to_chuc_cap_chung_chis.ten_to_chuc')
             ->get();
         return response()->json([
@@ -140,10 +140,22 @@ class ChungChiController extends Controller
     public function getDataADChungChi()
     {
         $check = $this->isUserAdmin();
-        $data = ChungChi::join('hoc_viens', 'chung_chis.id_hoc_vien','hoc_viens.id')
-        ->join('to_chuc_cap_chung_chis', 'chung_chis.id_to_chuc','to_chuc_cap_chung_chis.id')
-            ->select('chung_chis.*', 'hoc_viens.ho_ten','hoc_viens.email','hoc_viens.so_cccd' ,'hoc_viens.ngay_sinh', 'to_chuc_cap_chung_chis.ten_to_chuc')
-            ->get();
+        $data = ChungChi::where(function ($query) {
+            $query->where('tinh_trang', ChungChi::TINH_TRANG_DA_CAP_NFT)
+                  ->orWhere('tinh_trang', ChungChi::TINH_TRANG_DA_VO_HIEU_HOA);
+        })
+        ->join('hoc_viens', 'chung_chis.id_hoc_vien', '=', 'hoc_viens.id')
+        ->join('to_chuc_cap_chung_chis', 'chung_chis.id_to_chuc', '=', 'to_chuc_cap_chung_chis.id')
+        ->select(
+            'chung_chis.*',
+            'hoc_viens.ho_ten',
+            'hoc_viens.email',
+            'hoc_viens.so_cccd',
+            'hoc_viens.ngay_sinh',
+            'to_chuc_cap_chung_chis.ten_to_chuc'
+        )
+        ->get();
+
         return response()->json([
             'data' => $data,
         ]);
