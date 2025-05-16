@@ -31,7 +31,7 @@ class HocVienController extends Controller
             'is_duyet' => 0,
         ]);
         return response()->json([
-            'message'  =>   'Vui Lòng Đợi Duyệt Tài Khoản',
+            'message'  =>   'Vui lòng đợi duyệt',
             'status'   =>   true
         ]);
     }
@@ -45,41 +45,33 @@ class HocVienController extends Controller
             $user = Auth::guard('hoc_vien')->user();
             if ($user->is_duyet == 1) {
                 return response()->json([
-                    'message'  =>   'Đăng Nhập Thành Công.',
+                    'message'  =>   'Đăng nhập thành công',
                     'status'   =>   true,
                     'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_hoc_vien')->plainTextToken,
-                    'ten_hoc_vien' =>   $user->ho_ten
+                    'ten_hoc_vien' =>   $user->ho_ten,
+                    'hinh_anh_hoc_vien' =>   $user->hinh_anh
+
                 ]);
             } else if ($user->is_duyet == 0) {
                 return response()->json([
-                    'message'  =>   'Vui Lòng Đợi Duyệt Tài Khoản',
+                    'message'  =>   'Vui lòng đợi duyệt',
                     'status'   =>   false
                 ]);
-            } else if($user->is_duyet == 2) {
+            } else if ($user->is_duyet == 2) {
                 return response()->json([
-                    'message'  =>   'Tài Khoản Đã Bị Khóa',
+                    'message'  =>   'Tài khoản đã bị khóa',
                     'status'   =>   false,
                 ]);
             }
-        }else{
+        } else {
             return response()->json([
-                'message'  =>   'Sai Thông Tin Đăng Nhập.',
+                'message'  =>   'Sai tài khoản hoặc mật khẩu',
                 'status'   =>   false,
             ]);
         }
     }
     public function getData()
     {
-        $id_chuc_nang = 2;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
-
         $data = HocVien::get();
         return response()->json([
             'data' => $data,
@@ -96,7 +88,7 @@ class HocVienController extends Controller
         } else {
             return response()->json([
                 'status'   =>   false,
-                'message'  =>   'Yêu Cầu Đăng Nhập',
+                'message'  =>   'Yêu cầu đăng nhập',
             ]);
         }
     }
@@ -129,12 +121,12 @@ class HocVienController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Đã Đăng Xuất Tất Cả Thiết Bị Thành Công"
+                'message' => "Đã đăng xuất tất cả thiết bị thành công"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Vui Lòng Đăng Nhập"
+                'message' => "Vui lòng đăng nhập"
             ]);
         }
     }
@@ -160,12 +152,30 @@ class HocVienController extends Controller
             ]);
             return response()->json([
                 'status' => true,
-                'message' => "Cập Nhật Thông Tin Thành Công"
+                'message' => "Cập nhật thành công"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
+            ]);
+        }
+    }
+    public function chonAvt(Request $request)
+    {
+        $check = $this->isUserHocVien();
+        if ($check) {
+            HocVien::where('id', $check->id)->update([
+                'hinh_anh' => $request->hinh_anh,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => "Cập nhật thành công"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -180,18 +190,18 @@ class HocVienController extends Controller
                 ]);
                 return response()->json([
                     'status' => true,
-                    'message' => "Đổi Mật Khẩu Thành Công"
+                    'message' => "Đổi mật khẩu thành công"
                 ]);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Mật Khẩu Hiện Cũ Sai"
+                    'message' => "Mật khẩu cũ sai"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -204,12 +214,12 @@ class HocVienController extends Controller
             Mail::to($request->email)->send(new HocVienQuenMatKhau($check->hash_reset, $check->ho_ten));
             return response()->json([
                 'status' => true,
-                'message' => "Kiểm Tra Email"
+                'message' => "Kiểm tra email"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -222,36 +232,26 @@ class HocVienController extends Controller
             $check->save();
             return response()->json([
                 'status' => true,
-                'message' => "Mật Khẩu Đã Được Đổi Thành Công"
+                'message' => "Đổi mật khẩu thành công"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
 
     public function doiTrangThaiHocVien(Request $request)
     {
-        $id_chuc_nang = 2;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
-
         $hocvien = HocVien::where('id', $request->id)->first();
 
         if ($hocvien) {
-            if ($hocvien->is_duyet == 0) { // Chưa Duyệt sẽ thành Duyệt
+            if ($hocvien->is_duyet == 0) {
                 $hocvien->is_duyet = 1;
-            } else if ($hocvien->is_duyet == 1) { // Duyệt sẽ thành Khóa
+            } else if ($hocvien->is_duyet == 1) {
                 $hocvien->is_duyet = 2;
-            } else if ($hocvien->is_duyet == 2) { // Khóa sẽ thành Chưa Duyệt
+            } else if ($hocvien->is_duyet == 2) {
                 $hocvien->is_duyet = 1;
             }
 
@@ -259,12 +259,12 @@ class HocVienController extends Controller
 
             return response()->json([
                 'status'    =>   true,
-                'message'   =>   'Đã đổi trạng thái học viên ' . $hocvien->ho_ten . '!',
+                'message'   =>   'Đã đổi trạng thái thành công ',
             ]);
         } else {
             return response()->json([
                 'status'    =>   false,
-                'message'   =>   'Không tìm được học viên để cập nhật!'
+                'message'   =>   'Có lỗi xảy ra'
             ]);
         }
     }
@@ -275,7 +275,7 @@ class HocVienController extends Controller
 
         $user = Auth::guard('sanctum')->user();
         $check = ViNft::where('id_hoc_vien', $user->id)->first();
-        if($check) {
+        if ($check) {
             $check->dia_chi_vi = $request->dia_chi_vi;
             $check->save();
         } else {
@@ -286,7 +286,7 @@ class HocVienController extends Controller
         }
         return response()->json([
             'status' => true,
-            'message' => "Cập Nhật Địa Chỉ Ví Thành Công"
+            'message' => "Cập nhật địa chỉ ví thành công"
         ]);
     }
 
@@ -295,7 +295,7 @@ class HocVienController extends Controller
         $this->isUserHocVien();
         $user = Auth::guard('sanctum')->user();
         $check = ViNft::where('id_hoc_vien', $user->id)->first();
-        if($check) {
+        if ($check) {
             return response()->json([
                 'dia_chi_vi' => $check->dia_chi_vi,
             ]);
@@ -305,5 +305,23 @@ class HocVienController extends Controller
                 'dia_chi_vi' => null,
             ]);
         }
+    }
+    public function getTKTimKiem(Request $request)
+    {
+        $tim_kiem = "%" . $request->tim . "%";
+
+        $data = HocVien::where('ho_ten', 'like', $tim_kiem)
+            ->orWhere('email', 'like', $tim_kiem)
+            ->get();
+        if ($data->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Không tìm thấy kết quả'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $data
+        ]);
     }
 }

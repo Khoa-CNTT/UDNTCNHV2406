@@ -1,18 +1,17 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BaoCaoController;
 use App\Http\Controllers\ChiTietCapQuyenController;
 use App\Http\Controllers\ChiTietDonHangController;
 use App\Http\Controllers\ChucNangController;
 use App\Http\Controllers\ChucVuController;
 use App\Http\Controllers\ChungChiController;
-use App\Http\Controllers\CoQuanXacThucController;
 use App\Http\Controllers\DonHangController;
 use App\Http\Controllers\GiaoDichController;
 use App\Http\Controllers\HocVienController;
 use App\Http\Controllers\LichSuGiaoDichController;
 use App\Http\Controllers\NftGuiDenController;
+use App\Http\Controllers\NhanThongTinLienHeController;
 use App\Http\Controllers\ThongBaoController;
 use App\Http\Controllers\ThongBaoNguoiNhanController;
 use App\Http\Controllers\ThongKeController;
@@ -21,7 +20,6 @@ use App\Http\Controllers\ToChucCapChungChiController;
 use App\Http\Controllers\UpFileImageController;
 use App\Http\Controllers\ViNftController;
 use App\Http\Controllers\YeuCauCapController;
-use App\Models\NftGuiDen;
 use Illuminate\Support\Facades\Route;
 
 
@@ -48,6 +46,8 @@ Route::get('/admin/chuc-nang-theo-chuc-vu/{id}', [ChiTietCapQuyenController::cla
 Route::post('/admin/chi-tiet-cap-quyen/create', [ChiTietCapQuyenController::class, 'store']);
 Route::post('/admin/chi-tiet-cap-quyen/delete', [ChiTietCapQuyenController::class, 'destroy']);
 
+Route::post('/admin/chuc-vu-nhan-vien/update', [AdminController::class,'updateChucVuNhanVien']);
+
 
 Route::post('/admin/doi-trang-thai', [AdminController::class,'doiTrangThai']);
 Route::post('/admin/hoc-vien/doi-trang-thai', [HocVienController::class,'doiTrangThaiHocVien']);
@@ -55,6 +55,10 @@ Route::post('/admin/to-chuc/doi-trang-thai', [ToChucCapChungChiController::class
 
 Route::get('/admin/cap-nft/data', [ChungChiController::class,'getDataCapNft']);
 Route::post('/admin/cap-nft/create', [ChungChiController::class,'createCapNft']);
+
+Route::post('/admin/tai-khoan-nhan-vien/tim-kiem', [AdminController::class, 'getTKTimKiem']);
+Route::post('/admin/tai-khoan-nguoi-dung/tim-kiem', [HocVienController::class, 'getTKTimKiem']);
+Route::post('/admin/tai-khoan-to-chuc/tim-kiem', [ToChucCapChungChiController::class, 'getTKTimKiem']);
 
 
 
@@ -68,6 +72,7 @@ Route::get('/hoc-vien/dang-xuat', [HocVienController::class,'dangXuat']);
 Route::get('/hoc-vien/dang-xuat-all', [HocVienController::class,'dangXuatAll']);
 Route::get('/hoc-vien/profile', [HocVienController::class,'Profile']);
 Route::post('/hoc-vien/update-profile', [HocVienController::class,'updateProfile']);
+Route::post('/hoc-vien/chon-avt', [HocVienController::class,'chonAvt']);
 Route::post('/hoc-vien/update-mat-khau', [HocVienController::class,'updateMatKhau']);
 Route::post('/hoc-vien/quen-mat-khau', [HocVienController::class, 'actionQuenmatKhau']);
 Route::post('/hoc-vien/lay-lai-mat-khau/{hash_reset}', [HocVienController::class, 'actionLayLaiMatKhau']);
@@ -161,15 +166,16 @@ Route::get('/hoc-vien/nhan-nft/chi-tiet/{id}', [NftGuiDenController::class,'xemC
 
 
 
+Route::get('/admin/lich-su-giao-dich-nhan', [LichSuGiaoDichController::class,'lsGiaoDichNhan']);
+Route::get('/admin/lich-su-giao-dich-gui', [LichSuGiaoDichController::class,'lsGiaoDichGui']);
+
+
+Route::post('/admin/nhan-thong-tin-lien-he/tao', [NhanThongTinLienHeController::class,'tao']);
+Route::get('/admin/nhan-thong-tin-lien-he/xem', [NhanThongTinLienHeController::class,'xem']);
+
+
+
 //php artisan storage:link
 //composer require shuchkin/simplexlsx
 //php artisan queue:work đếm thời gian giao dịch
 
-// Route::post('/co-quan/dang-ky', [CoQuanXacThucController::class,'dangKy']);
-// Route::post('/co-quan/dang-nhap', [CoQuanXacThucController::class,'dangNhap']);
-// Route::get('/co-quan/data', [CoQuanXacThucController::class,'getData']);
-// Route::post('/co-quan/kiem-tra-chia-khoa', [CoQuanXacThucController::class,'kiemTraChiaKhoa']);
-// Route::get('/co-quan/dang-xuat', [CoQuanXacThucController::class,'dangXuatAll']);
-// Route::get('/co-quan/profile', [CoQuanXacThucController::class,'Profile']);
-// Route::post('/co-quan/update-profile', [CoQuanXacThucController::class,'updateProfile']);
-// Route::post('/co-quan/update-mat-khau', [CoQuanXacThucController::class,'updateMatKhau']);

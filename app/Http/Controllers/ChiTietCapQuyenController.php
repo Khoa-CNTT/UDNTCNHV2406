@@ -9,20 +9,11 @@ class ChiTietCapQuyenController extends Controller
 {
     public function loadchiTietChucNang($id_chuc_vu)
     {
-        $id_chuc_nang = 1;
-        $user = $this->isUserAdmin();
-        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
-        if (!$checkQuyen) {
-            return response()->json([
-                'message'  =>   'Bạn chưa được cấp quyền này',
-                'status'   =>   false,
-            ]);
-        }
 
         $data = ChiTietCapQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->join('chuc_nangs', 'chuc_nangs.id', 'chi_tiet_cap_quyens.id_chuc_nang')
-                                ->select('chi_tiet_cap_quyens.*', 'chuc_nangs.ten_chuc_nang')
-                                ->get();
+            ->join('chuc_nangs', 'chuc_nangs.id', 'chi_tiet_cap_quyens.id_chuc_nang')
+            ->select('chi_tiet_cap_quyens.*', 'chuc_nangs.ten_chuc_nang')
+            ->get();
 
         return response()->json([
             'data'    => $data,
@@ -30,7 +21,7 @@ class ChiTietCapQuyenController extends Controller
     }
     public function store(Request $request)
     {
-        $id_chuc_nang = 1;
+        $id_chuc_nang = 3;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -41,13 +32,13 @@ class ChiTietCapQuyenController extends Controller
         }
 
         $check = ChiTietCapQuyen::where('id_chuc_vu', $request->id_chuc_vu)
-                                 ->where('id_chuc_nang', $request->id_chuc_nang)
-                                 ->first();
+            ->where('id_chuc_nang', $request->id_chuc_nang)
+            ->first();
 
-        if($check) {
+        if ($check) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Quyền này đã được phân rồi'
+                'message'   => 'Quyền này đã được phân'
             ]);
         }
         ChiTietCapQuyen::create([
@@ -57,12 +48,12 @@ class ChiTietCapQuyenController extends Controller
 
         return response()->json([
             'status'    => true,
-            'message'   => 'Đã Phân Quyền thành công!'
+            'message'   => 'Phân quyền thành công'
         ]);
     }
     public function destroy(Request $request)
     {
-        $id_chuc_nang = 1;
+        $id_chuc_nang = 4;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -76,8 +67,7 @@ class ChiTietCapQuyenController extends Controller
 
         return response()->json([
             'status'    => true,
-            'message'   => 'Đã Xoá Cấp Quyền thành công!'
+            'message'   => 'Thu hồi quyền thành công'
         ]);
     }
-
 }

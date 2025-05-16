@@ -77,12 +77,12 @@ class ThongBaoNguoiNhanController extends Controller
             }
             return response()->json([
                 'status'    => true,
-                'message'   => 'Đã Xóa Thành Công'
+                'message'   => 'Xóa thành công'
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Có Lỗi Xảy Ra'
+                'message'   => 'Có lỗi xảy ra'
             ]);
         }
     }

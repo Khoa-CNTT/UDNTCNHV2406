@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HocVien;
+use App\Models\ViNft;
 use App\Models\YeuCauCap;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,26 +13,34 @@ class YeuCauCapController extends Controller
 {
     public function guiYeuCauCap(Request $request)
     {
-        $check = Auth::guard('sanctum')->user();
-        $hoc_vien = $this->isUserHocVien();
-        if ($hoc_vien) {
-            $yeuCauCap = YeuCauCap::create([
-                'id_to_chuc' => $request->id_to_chuc,
-                'id_hoc_vien' => $check->id,
-                'ho_ten' => $check->ho_ten,
-                'so_cccd' => $check->so_cccd,
-                'email' => $check->email,
-                'so_hieu_chung_chi' => $request->so_hieu_chung_chi,
-                'trang_thai' => 0,
-            ]);
-            return response()->json([
-                'status'    =>   true,
-                'message'   =>   'Đã Yêu Cầu Thành Công',
-            ]);
+        $check = $this->isUserHocVien();
+        if ($check) {
+            $vi_nft = ViNft::where('id_hoc_vien', $check->id)
+                ->whereNotNull('dia_chi_vi')->first();
+            if ($vi_nft) {
+                $yeuCauCap = YeuCauCap::create([
+                    'id_to_chuc' => $request->id_to_chuc,
+                    'id_hoc_vien' => $check->id,
+                    'ho_ten' => $check->ho_ten,
+                    'so_cccd' => $check->so_cccd,
+                    'email' => $check->email,
+                    'so_hieu_chung_chi' => $request->so_hieu_chung_chi,
+                    'trang_thai' => 0,
+                ]);
+                return response()->json([
+                    'status'    =>   true,
+                    'message'   =>   'Yêu cầu thành công',
+                ]);
+            }else{
+                return response()->json([
+                    'status'    =>   false,
+                    'message'   =>   'Bạn chưa có địa chỉ ví',
+                ]);
+            }
         } else {
             return response()->json([
                 'status'    =>   false,
-                'message'   =>   'Có Lỗi Xảy Ra'
+                'message'   =>   'Có lỗi xảy ra'
             ]);
         }
     }
@@ -79,7 +88,7 @@ class YeuCauCapController extends Controller
                     return response()->json([
                         'data' => $data,
                         'status' => true,
-                        'message' => 'Có Thông Tin'
+                        'message' => 'Có thông tin'
                     ]);
                 } else {
                     YeuCauCap::where('id', $id)->update([
@@ -87,13 +96,13 @@ class YeuCauCapController extends Controller
                     ]);
                     return response()->json([
                         'status' => false,
-                        'message' => 'Không Tìm Được Thông Tin'
+                        'message' => 'Không tìm được thông tin'
                     ]);
                 }
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Có Lỗi Xảy Ra'
+                    'message' => 'Có lỗi xảy ra'
                 ]);
             }
         }
