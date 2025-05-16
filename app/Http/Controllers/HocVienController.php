@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DangNhapNguoiDungRequest;
 use App\Mail\HocVienQuenMatKhau;
 use App\Models\ChiTietCapQuyen;
 use App\Models\HocVien;
@@ -34,7 +35,7 @@ class HocVienController extends Controller
             'status'   =>   true
         ]);
     }
-    public function dangNhap(Request $request)
+    public function dangNhap(DangNhapNguoiDungRequest $request)
     {
         $check = Auth::guard('hoc_vien')->attempt([
             'email' => $request->email,

@@ -44,7 +44,7 @@ Route::get('/admin/chuc-vu/data', [ChucVuController::class, 'getDataChucVu']);
 Route::post('/admin/chuc-vu/create', [ChucVuController::class, 'createDataChucVu']);
 Route::delete('/admin/chuc-vu/delete/{id}', [ChucVuController::class, 'deleteChucVu']);
 Route::post('/admin/chuc-vu/update', [ChucVuController::class, 'UpateChucVu']);
-Route::get('/admin/chuc-nang-theo-chuc-vu/{id_chuc_vu}', [ChiTietCapQuyenController::class, 'loadchiTietChucNang']);
+Route::get('/admin/chuc-nang-theo-chuc-vu/{id}', [ChiTietCapQuyenController::class, 'loadchiTietChucNang']);
 Route::post('/admin/chi-tiet-cap-quyen/create', [ChiTietCapQuyenController::class, 'store']);
 Route::post('/admin/chi-tiet-cap-quyen/delete', [ChiTietCapQuyenController::class, 'destroy']);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DangNhapAdmimRequest;
 use App\Models\Admin;
 
 use Illuminate\Http\Request;
@@ -54,34 +55,39 @@ class AdminController extends Controller
             'status'   =>   true
         ]);
     }
-    public function dangNhap(Request $request)
+    public function dangNhap(DangNhapAdmimRequest $request)
     {
         $check = Auth::guard('admin')->attempt([
-            'email' => $request->email,
+            'email'    => $request->email,
             'password' => $request->password,
         ]);
+
         if ($check) {
             $user = Auth::guard('admin')->user();
+
             if ($user->is_duyet == 1) {
                 return response()->json([
-                    'message'  =>   'Đăng Nhập Thành Công.',
-                    'status'   =>   true,
-                    'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_admin')->plainTextToken,
-                    'ten_admin' =>   $user->ho_ten
-                ]);
-            } else if ($user->is_duyet == 2) {
-                return response()->json([
-                    'message'  =>   'Tài Khoản Đã Bị Khóa',
-                    'status'   =>   false,
+                    'message'    => 'Đăng Nhập Thành Công.',
+                    'status'     => true,
+                    'chia_khoa'  => $user->createToken('ma_so_chia_khoa_admin')->plainTextToken,
+                    'ten_admin'  => $user->ho_ten,
                 ]);
             }
-        } else {
-            return response()->json([
-                'message'  =>   'Sai Thông Tin Đăng Nhập.',
-                'status'   =>   false,
-            ]);
+
+            if ($user->is_duyet == 2) {
+                return response()->json([
+                    'message' => 'Tài Khoản Đã Bị Khóa.',
+                    'status'  => false,
+                ]);
+            }
         }
+
+        return response()->json([
+            'message' => 'Sai Thông Tin Đăng Nhập.',
+            'status'  => false,
+        ]);
     }
+
     public function kiemTraChiaKhoa()
     {
         $check = $this->isUserAdmin();
@@ -262,5 +268,4 @@ class AdminController extends Controller
             ]);
         }
     }
-
 }
