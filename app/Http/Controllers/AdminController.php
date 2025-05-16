@@ -137,11 +137,11 @@ class AdminController extends Controller
     }
     public function Profile()
     {
-       $check = $this->isUserAdmin();
-       $data = Admin::where('admins.id', $check->id)
-       ->join('chuc_vus', 'admins.id_chuc_vu', 'chuc_vus.id')
-       ->select('admins.*', 'chuc_vus.ten_chuc_vu')
-       ->first();
+        $check = $this->isUserAdmin();
+        $data = Admin::where('admins.id', $check->id)
+            ->join('chuc_vus', 'admins.id_chuc_vu', 'chuc_vus.id')
+            ->select('admins.*', 'chuc_vus.ten_chuc_vu')
+            ->first();
         return response()->json([
             'data' => $data,
         ]);
@@ -321,5 +321,4 @@ class AdminController extends Controller
             ]);
         }
     }
-
 }

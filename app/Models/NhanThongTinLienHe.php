@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class NhanThongTinLienHe extends Model
 {
     use HasFactory;
-    protected $table = "nhan_thong_tin_lien_he";
+    protected $table = "nhan_thong_tin_lien_hes";
     protected $fillable = [
         'ho_ten',
         'sdt',

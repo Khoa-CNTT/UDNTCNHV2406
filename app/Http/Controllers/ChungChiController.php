@@ -183,61 +183,91 @@ class ChungChiController extends Controller
 
     }
 
-    public function mintNFTtoApi($address, $metadataUri, $metadata)
-    {
+    public function mintNFTtoApi($address, $metadataUri)
+{
+    try {
         $client = new \GuzzleHttp\Client();
-        $res    = $client->post("http://localhost:3000/api/mint-nft", [
+        $res = $client->post("http://localhost:3000/api/mint-nft", [
             'json' => [
                 'recipient' => $address,
-                'tokenURI'  => $metadataUri,
-                'attributes' => $metadata
+                'tokenURI'  => $metadataUri
             ]
         ]);
 
-        $data = json_decode($res->getBody(), true);
-        return $data;
-    }
-
-    public function createCapNft(Request $request)
-    {
-        $this->isUserAdmin();
-        $sinh_vien = HocVien::where('hoc_viens.id', $request->id_hoc_vien)
-                            ->join('vi_nfts', 'hoc_viens.id', 'vi_nfts.id_hoc_vien')
-                            ->select(
-                                'vi_nfts.*',
-                            )
-                            ->first();
-
-        $metadata = [
-            "created_at"        => $request->created_at,
-            "email"             => $request->email,
-            "hinh_anh"          => $request->hinh_anh,
-            "ho_ten"            => $request->ho_ten,
-            "ket_qua"           => $request->ket_qua,
-            "khoa_hoc"          => $request->khoa_hoc,
-            "ngay_cap"          => $request->ngay_cap,
-            "ngay_sinh"         => $request->ngay_sinh,
-            "so_cccd"           => $request->so_cccd,
-            "so_hieu_chung_chi" => $request->so_hieu_chung_chi,
-            "ten_to_chuc"       => $request->ten_to_chuc,
-            "trinh_do"          => $request->trinh_do,
+        return json_decode($res->getBody(), true);
+    } catch (\GuzzleHttp\Exception\RequestException $e) {
+        Log::error('Mint NFT error: ' . $e->getMessage());
+        return [
+            'success' => false,
+            'error' => 'Minting failed: ' . $e->getMessage()
         ];
-
-        $metadataUri = $this->pinataService->uploadMetadata($metadata);
-
-        $txHash = $this->mintNFTtoApi($sinh_vien->dia_chi_vi, $metadataUri, $metadata);
-
-        $chung_chi = ChungChi::where('id', $request->id)->first();
-        if ($chung_chi) {
-            $chung_chi->token = $txHash['transactionHash'];
-            $chung_chi->MetaData_URL = $metadataUri;
-            $chung_chi->tinh_trang = ChungChi::TINH_TRANG_DA_CAP_NFT;
-            $chung_chi->save();
-        }
-
-        return response()->json([
-            'success' => true,
-            'mesasage' => 'Mint NFT thành công',
-        ]);
     }
+}
+
+public function createCapNft(Request $request)
+{
+    $this->isUserAdmin();
+
+    $sinh_vien = HocVien::where('hoc_viens.id', $request->id_hoc_vien)
+                        ->join('vi_nfts', 'hoc_viens.id', 'vi_nfts.id_hoc_vien')
+                        ->select('vi_nfts.*')
+                        ->first();
+
+    if (!$sinh_vien) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Không tìm thấy sinh viên hoặc ví NFT.'
+        ], 404);
+    }
+
+    // Chuẩn metadata chuẩn OpenSea
+    $metadata = [
+        "name"        => "Chứng chỉ khóa học - " . $request->ho_ten,
+        "description" => "Chứng chỉ số cho học viên {$request->ho_ten} tốt nghiệp khóa học {$request->khoa_hoc}.",
+        "image"       => $request->hinh_anh,
+        "external_url"=> null,
+        "attributes"  => [
+            ["trait_type" => "Họ tên", "value" => $request->ho_ten],
+            ["trait_type" => "Email", "value" => $request->email],
+            ["trait_type" => "Ngày sinh", "value" => $request->ngay_sinh],
+            ["trait_type" => "Số CCCD", "value" => $request->so_cccd],
+            ["trait_type" => "Trình độ", "value" => $request->trinh_do],
+            ["trait_type" => "Khóa học", "value" => $request->khoa_hoc],
+            ["trait_type" => "Ngày cấp", "value" => $request->ngay_cap],
+            ["trait_type" => "Kết quả", "value" => $request->ket_qua],
+            ["trait_type" => "Tổ chức cấp", "value" => $request->ten_to_chuc],
+            ["trait_type" => "Số hiệu CC", "value" => $request->so_hieu_chung_chi],
+            ["trait_type" => "Ngày tạo", "value" => $request->created_at],
+        ]
+    ];
+
+    // Upload metadata lên IPFS qua Pinata
+    $metadataUri = $this->pinataService->uploadMetadata($metadata);
+
+    // Gọi API mint NFT
+    $txHash = $this->mintNFTtoApi($sinh_vien->dia_chi_vi, $metadataUri);
+
+    if (!isset($txHash['success']) || !$txHash['success']) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Mint NFT thất bại',
+            'error'   => $txHash['error'] ?? 'Không xác định'
+        ], 500);
+    }
+
+    // Cập nhật chứng chỉ
+    $chung_chi = ChungChi::find($request->id);
+    if ($chung_chi) {
+        $chung_chi->token = $txHash['transactionHash'];
+        $chung_chi->MetaData_URL = $metadataUri;
+        $chung_chi->tinh_trang = ChungChi::TINH_TRANG_DA_CAP_NFT;
+        $chung_chi->save();
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Mint NFT thành công'
+    ]);
+}
+
 }

@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
                 'so_cccd'           =>  '04009912345678',
                 'sdt'           =>  '0123456789',
                 'dia_chi'           =>  'Đà Nẵng',
-                'hinh_anh'           =>  'avata.jpg',
+                'hinh_anh'           =>  null,
                 'hash_reset'           =>  null,
                 'id_chuc_vu'           =>  '1',
                 'is_duyet'           =>  1,
