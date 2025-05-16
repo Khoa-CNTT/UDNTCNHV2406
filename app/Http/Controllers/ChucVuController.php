@@ -35,7 +35,7 @@ class ChucVuController extends Controller
             'ten_chuc_vu' => $request->ten_chuc_vu,
         ]);
         return response()->json([
-            'message'  =>   'Thêm Chức Vụ Thành Công.',
+            'message'  =>   'Thêm chức vụ thành công',
             'status'   =>   true
         ]);
     }
@@ -58,18 +58,18 @@ class ChucVuController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Đã xóa chức vụ thành công"
+                'message' => "Xóa thành công"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
     public function UpateChucVu(Request $request)
     {
-        
+
         $ten_chuc_vu = ChucVu::where('id', $request->id)->first();
         if ($ten_chuc_vu) {
             $ten_chuc_vu->update([
@@ -79,12 +79,12 @@ class ChucVuController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Cập Nhật Chức Vụ thành công"
+                'message' => "Cập nhật thành công"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }

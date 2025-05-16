@@ -16,7 +16,7 @@ class ChiTietDonHangController extends Controller
         if (!$hoc_vien) {
             return response()->json([
                 'status' => false,
-                'message' => 'Bạn chưa đăng nhập.'
+                'message' => 'Bạn chưa đăng nhập'
             ]);
         }
 
@@ -28,7 +28,7 @@ class ChiTietDonHangController extends Controller
         if (!$chung_chi) {
             return response()->json([
                 'status' => false,
-                'message' => 'Chứng chỉ không tồn tại hoặc đã có token.'
+                'message' => 'Có lỗi xảy ra'
             ]);
         }
 
@@ -37,7 +37,7 @@ class ChiTietDonHangController extends Controller
         if ($da_co) {
             return response()->json([
                 'status' => false,
-                'message' => 'Chứng chỉ này đã có trong giỏ hàng.'
+                'message' => 'Chứng chỉ này đã có trong giỏ hàng'
             ]);
         }
 
@@ -49,7 +49,7 @@ class ChiTietDonHangController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Thêm vào thanh toán thành công.'
+            'message' => 'Thêm vào thanh toán thành công'
         ]);
     }
     public function getData()
@@ -75,12 +75,12 @@ class ChiTietDonHangController extends Controller
             $data->delete();
             return response()->json([
                 'status'    =>   true,
-                'message'   =>   'Đã Xóa Thành Công'
+                'message'   =>   'Xóa Thành Công'
             ]);
         } else {
             return response()->json([
                 'status'    =>   false,
-                'message'   =>   'Có Lỗi Xảy Ra'
+                'message'   =>   'Có lỗi xảy ra'
             ]);
         }
     }

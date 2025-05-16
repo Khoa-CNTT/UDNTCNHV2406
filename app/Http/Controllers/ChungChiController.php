@@ -63,7 +63,7 @@ class ChungChiController extends Controller
 
                 return response()->json([
                     'status' => true,
-                    'message' => "Đã Vô Hiêu Hóa Thành Công"
+                    'message' => "Vô hiệu hóa thành công"
                 ]);
             } else if ($chung_chi->tinh_trang == 3) {
                 $chung_chi->tinh_trang = 2;
@@ -72,13 +72,13 @@ class ChungChiController extends Controller
 
                 return response()->json([
                     'status' => true,
-                    'message' => "Đã Mở Vô Hiệu Hóa Thành Công"
+                    'message' => "Mở vô hiệu hóa thành công"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -121,18 +121,18 @@ class ChungChiController extends Controller
                     'tinh_trang' => 0,
                 ]);
                 return response()->json([
-                    'message'  =>   'Tạo Thành Công',
+                    'message'  =>   'Tạo thành công',
                     'status'   =>   true,
                 ]);
             } else {
                 return response()->json([
-                    'message'  =>   'Có Lỗi Xảy Ra',
+                    'message'  =>   'Có lỗi xảy ra',
                     'status'   =>   false,
                 ]);
             }
         }else{
             return response()->json([
-                'message'  =>   'Có Lỗi Xảy Ra',
+                'message'  =>   'Có lỗi xảy ra',
                 'status'   =>   false,
             ]);
         }

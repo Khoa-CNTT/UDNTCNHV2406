@@ -38,7 +38,7 @@ class ChiTietCapQuyenController extends Controller
         if($check) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Quyền này đã được phân rồi'
+                'message'   => 'Quyền này đã được phân'
             ]);
         }
         ChiTietCapQuyen::create([
@@ -48,7 +48,7 @@ class ChiTietCapQuyenController extends Controller
 
         return response()->json([
             'status'    => true,
-            'message'   => 'Đã Phân Quyền thành công!'
+            'message'   => 'Phân quyền thành công'
         ]);
     }
     public function destroy(Request $request)
@@ -67,7 +67,7 @@ class ChiTietCapQuyenController extends Controller
 
         return response()->json([
             'status'    => true,
-            'message'   => 'Đã Xoá Cấp Quyền thành công!'
+            'message'   => 'Thu hồi quyền thành công'
         ]);
     }
 

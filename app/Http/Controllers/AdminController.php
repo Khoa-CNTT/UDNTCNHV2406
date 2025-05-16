@@ -50,7 +50,7 @@ class AdminController extends Controller
             'is_duyet' => 1,
         ]);
         return response()->json([
-            'message'  =>   'Thêm Tài Khoản Thành Công.',
+            'message'  =>   'Thêm tài khoản thành công',
             'status'   =>   true
         ]);
     }
@@ -64,20 +64,20 @@ class AdminController extends Controller
             $user = Auth::guard('admin')->user();
             if ($user->is_duyet == 1) {
                 return response()->json([
-                    'message'  =>   'Đăng Nhập Thành Công.',
+                    'message'  =>   'Đăng nhập thành công.',
                     'status'   =>   true,
                     'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_admin')->plainTextToken,
                     'ten_admin' =>   $user->ho_ten
                 ]);
             } else if ($user->is_duyet == 2) {
                 return response()->json([
-                    'message'  =>   'Tài Khoản Đã Bị Khóa',
+                    'message'  =>   'Tài khoản đã bị khóa',
                     'status'   =>   false,
                 ]);
             }
         } else {
             return response()->json([
-                'message'  =>   'Sai Thông Tin Đăng Nhập.',
+                'message'  =>   'Sai thông tin đăng nhập',
                 'status'   =>   false,
             ]);
         }
@@ -93,7 +93,7 @@ class AdminController extends Controller
         } else {
             return response()->json([
                 'status'   =>   false,
-                'message'  =>   'Yêu Cầu Đăng Nhập',
+                'message'  =>   'Yêu cầu đăng nhập',
             ]);
         }
     }
@@ -162,12 +162,12 @@ class AdminController extends Controller
             ]);
             return response()->json([
                 'status' => true,
-                'message' => "Cập Nhật Thông Tin Thành Công"
+                'message' => "Cập nhật thành công"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -182,18 +182,18 @@ class AdminController extends Controller
                 ]);
                 return response()->json([
                     'status' => true,
-                    'message' => "Đổi Mật Khẩu Thành Công"
+                    'message' => "Đổi mật khẩu thành công"
                 ]);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Mật Khẩu Hiện Cũ Sai"
+                    'message' => "Mật khẩu cũ sai"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -206,12 +206,12 @@ class AdminController extends Controller
             Mail::to($request->email)->send(new AdminQuenMatKhau($check->hash_reset, $check->ho_ten));
             return response()->json([
                 'status' => true,
-                'message' => "Kiểm Tra Email"
+                'message' => "Kiểm tra email"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -224,12 +224,12 @@ class AdminController extends Controller
             $check->save();
             return response()->json([
                 'status' => true,
-                'message' => "Mật Khẩu Đã Được Đổi Thành Công"
+                'message' => "Mật khẩu mới đã được cập nhật"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -257,12 +257,12 @@ class AdminController extends Controller
 
             return response()->json([
                 'status'    =>   true,
-                'message'   =>   'Đã đổi trạng thái nhân viên ' . $admin->ho_ten . '!',
+                'message'   =>   'Đã đổi trạng thái thành công',
             ]);
         } else {
             return response()->json([
                 'status'    =>   false,
-                'message'   =>   'Không tìm được đại lý để cập nhật!'
+                'message'   =>   'Có lỗi xảy ra'
             ]);
         }
     }
@@ -306,18 +306,18 @@ class AdminController extends Controller
                 ]);
                 return response()->json([
                     'status' => true,
-                    'message' => "Đổi Thành Công"
+                    'message' => "Cập nhật thành công"
                 ]);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Có Lỗi Xảy Ra"
+                    'message' => "Có lỗi xảy ra"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }

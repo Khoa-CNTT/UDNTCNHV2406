@@ -22,7 +22,7 @@ class DonHangController extends Controller
                 if (count($request->ds_chung_chi_thanh_toan) < 1) {
                     return response()->json([
                         'status' => false,
-                        'message' => "Không Có Chứng Chỉ Nào Thanh Toán."
+                        'message' => "Không có chứng chỉ nào cần thanh toán"
                     ]);
                 } else {
                     $don_hang = DonHang::create([
@@ -57,7 +57,7 @@ class DonHangController extends Controller
 
                     return response()->json([
                         'status' => true,
-                        'message' => "Mời Bạn Thanh Toán",
+                        'message' => "Mời bạn thanh toán",
                         'data'    => [
                             'ma_don_hang' => $ma_don_hang,
                             'tong_tien_thanh_toan'   => $tong_tien_thanh_toan,
@@ -70,7 +70,7 @@ class DonHangController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Có Lỗi Xảy Ra"
+                    'message' => "Có lỗi xảy ra"
                 ]);
             }
         } catch (\Exception $e) {
