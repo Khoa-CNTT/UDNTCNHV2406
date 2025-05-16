@@ -72,6 +72,7 @@ Route::get('/hoc-vien/dang-xuat', [HocVienController::class,'dangXuat']);
 Route::get('/hoc-vien/dang-xuat-all', [HocVienController::class,'dangXuatAll']);
 Route::get('/hoc-vien/profile', [HocVienController::class,'Profile']);
 Route::post('/hoc-vien/update-profile', [HocVienController::class,'updateProfile']);
+Route::post('/hoc-vien/chon-avt', [HocVienController::class,'chonAvt']);
 Route::post('/hoc-vien/update-mat-khau', [HocVienController::class,'updateMatKhau']);
 Route::post('/hoc-vien/quen-mat-khau', [HocVienController::class, 'actionQuenmatKhau']);
 Route::post('/hoc-vien/lay-lai-mat-khau/{hash_reset}', [HocVienController::class, 'actionLayLaiMatKhau']);

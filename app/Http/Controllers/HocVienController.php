@@ -47,7 +47,9 @@ class HocVienController extends Controller
                     'message'  =>   'Đăng nhập thành công',
                     'status'   =>   true,
                     'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_hoc_vien')->plainTextToken,
-                    'ten_hoc_vien' =>   $user->ho_ten
+                    'ten_hoc_vien' =>   $user->ho_ten,
+                    'hinh_anh_hoc_vien' =>   $user->hinh_anh
+
                 ]);
             } else if ($user->is_duyet == 0) {
                 return response()->json([
@@ -146,6 +148,24 @@ class HocVienController extends Controller
                 'so_cccd' => $request->so_cccd,
                 'sdt' => $request->sdt,
                 'dia_chi' => $request->dia_chi,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => "Cập nhật thành công"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra"
+            ]);
+        }
+    }
+    public function chonAvt(Request $request)
+    {
+        $check = $this->isUserHocVien();
+        if ($check) {
+            HocVien::where('id', $check->id)->update([
+                'hinh_anh' => $request->hinh_anh,
             ]);
             return response()->json([
                 'status' => true,
