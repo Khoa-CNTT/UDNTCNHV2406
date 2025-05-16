@@ -67,21 +67,6 @@ class AdminController extends Controller
 
             if ($user->is_duyet == 1) {
                 return response()->json([
-<<<<<<< HEAD
-                    'message'    => 'Đăng Nhập Thành Công.',
-                    'status'     => true,
-                    'chia_khoa'  => $user->createToken('ma_so_chia_khoa_admin')->plainTextToken,
-                    'ten_admin'  => $user->ho_ten,
-                ]);
-            }
-
-            if ($user->is_duyet == 2) {
-                return response()->json([
-                    'message' => 'Tài Khoản Đã Bị Khóa.',
-                    'status'  => false,
-                ]);
-            }
-=======
                     'message'  =>   'Đăng nhập thành công.',
                     'status'   =>   true,
                     'chia_khoa' =>   $user->createToken('ma_so_chia_khoa_admin')->plainTextToken,
@@ -98,7 +83,6 @@ class AdminController extends Controller
                 'message'  =>   'Sai thông tin đăng nhập',
                 'status'   =>   false,
             ]);
->>>>>>> 1abcc2ea33e35f2d993471d0bb213e82f45deb7c
         }
 
         return response()->json([
@@ -291,8 +275,6 @@ class AdminController extends Controller
             ]);
         }
     }
-<<<<<<< HEAD
-=======
     public function getTKTimKiem(Request $request)
     {
         $tim_kiem = "%" . $request->tim . "%";
@@ -348,5 +330,4 @@ class AdminController extends Controller
             ]);
         }
     }
->>>>>>> 1abcc2ea33e35f2d993471d0bb213e82f45deb7c
 }

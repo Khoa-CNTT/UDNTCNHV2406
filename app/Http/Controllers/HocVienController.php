@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DangKyNguoiDungRequest;
 use App\Http\Requests\DangNhapNguoiDungRequest;
 use App\Mail\HocVienQuenMatKhau;
 use App\Models\ChiTietCapQuyen;
@@ -17,7 +18,7 @@ use PhpParser\Node\Expr\FuncCall;
 
 class HocVienController extends Controller
 {
-    public function dangKy(Request $request)
+    public function dangKy(DangKyNguoiDungRequest $request)
     {
         HocVien::create([
             'email' => $request->email,

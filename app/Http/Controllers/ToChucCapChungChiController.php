@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DangKyToChucRequest;
 use App\Http\Requests\DangNhapToChucRequest;
 use App\Mail\ToChucQuenMatKhau;
 use App\Models\ChiTietCapQuyen;
@@ -14,7 +15,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 class ToChucCapChungChiController extends Controller
 {
-    public function dangKy(Request $request)
+    public function dangKy(DangKyToChucRequest $request)
     {
         ToChucCapChungChi::create([
             'email' => $request->email,
