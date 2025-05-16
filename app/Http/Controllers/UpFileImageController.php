@@ -23,13 +23,13 @@ class UpFileImageController extends Controller
                 return response()->json([
                     'image_urls' => $urls,
                     'status' => true,
-                    'message' => 'Tải Lên Thành Công',
+                    'message' => 'Tải lên thành công',
                 ]);
             }
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Có Lỗi Xảy Ra'
+                'message' => 'Có lỗi xảy ra'
             ]);
         }
     }

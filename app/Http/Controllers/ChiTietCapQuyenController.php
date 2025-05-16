@@ -11,9 +11,9 @@ class ChiTietCapQuyenController extends Controller
     {
 
         $data = ChiTietCapQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->join('chuc_nangs', 'chuc_nangs.id', 'chi_tiet_cap_quyens.id_chuc_nang')
-                                ->select('chi_tiet_cap_quyens.*', 'chuc_nangs.ten_chuc_nang')
-                                ->get();
+            ->join('chuc_nangs', 'chuc_nangs.id', 'chi_tiet_cap_quyens.id_chuc_nang')
+            ->select('chi_tiet_cap_quyens.*', 'chuc_nangs.ten_chuc_nang')
+            ->get();
 
         return response()->json([
             'data'    => $data,
@@ -32,10 +32,10 @@ class ChiTietCapQuyenController extends Controller
         }
 
         $check = ChiTietCapQuyen::where('id_chuc_vu', $request->id_chuc_vu)
-                                 ->where('id_chuc_nang', $request->id_chuc_nang)
-                                 ->first();
+            ->where('id_chuc_nang', $request->id_chuc_nang)
+            ->first();
 
-        if($check) {
+        if ($check) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Quyền này đã được phân'
@@ -70,5 +70,4 @@ class ChiTietCapQuyenController extends Controller
             'message'   => 'Thu hồi quyền thành công'
         ]);
     }
-
 }

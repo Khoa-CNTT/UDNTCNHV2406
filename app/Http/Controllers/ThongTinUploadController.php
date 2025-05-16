@@ -41,19 +41,19 @@ class ThongTinUploadController extends Controller
 
                     return response()->json([
                         'status' => true,
-                        'message' => 'Tải Lên Thành Công'
+                        'message' => 'Tải lên thành công'
                     ]);
                 } else {
                     return response()->json([
                         'status' => false,
-                        'message' => 'Có Lỗi Xảy Ra'
+                        'message' => 'Có lỗi xảy ra'
                     ]);
                 }
             }
         } catch (\Throwable $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Có Lỗi Xảy Ra Catch'
+                'message' => 'Có lỗi xảy ra'
             ]);
         }
     }

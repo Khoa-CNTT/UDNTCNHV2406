@@ -29,18 +29,18 @@ class YeuCauCapController extends Controller
                 ]);
                 return response()->json([
                     'status'    =>   true,
-                    'message'   =>   'Đã Yêu Cầu Thành Công',
+                    'message'   =>   'Yêu cầu thành công',
                 ]);
             }else{
                 return response()->json([
                     'status'    =>   false,
-                    'message'   =>   'Bạn Chưa Có Địa Chỉ Ví NFT',
+                    'message'   =>   'Bạn chưa có địa chỉ ví',
                 ]);
             }
         } else {
             return response()->json([
                 'status'    =>   false,
-                'message'   =>   'Có Lỗi Xảy Ra'
+                'message'   =>   'Có lỗi xảy ra'
             ]);
         }
     }
@@ -88,7 +88,7 @@ class YeuCauCapController extends Controller
                     return response()->json([
                         'data' => $data,
                         'status' => true,
-                        'message' => 'Có Thông Tin'
+                        'message' => 'Có thông tin'
                     ]);
                 } else {
                     YeuCauCap::where('id', $id)->update([
@@ -96,13 +96,13 @@ class YeuCauCapController extends Controller
                     ]);
                     return response()->json([
                         'status' => false,
-                        'message' => 'Không Tìm Được Thông Tin'
+                        'message' => 'Không tìm được thông tin'
                     ]);
                 }
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Có Lỗi Xảy Ra'
+                    'message' => 'Có lỗi xảy ra'
                 ]);
             }
         }

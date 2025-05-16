@@ -39,7 +39,7 @@ class NftGuiDenController extends Controller
             if ($request->email_nguoi_nhan === $check->email) {
                 return response()->json([
                     'status' => false,
-                    'message' => "Không Được Gửi Cho Tự Gửi Cho Chính Mình",
+                    'message' => "Không được tự gửi cho bản thân",
                 ]);
             }
             $hocVienNhan = HocVien::where('email', $request->email_nguoi_nhan)->first();
@@ -53,18 +53,18 @@ class NftGuiDenController extends Controller
                 ]);
                 return response()->json([
                     'status' => true,
-                    'message' => "Chia Sẻ Thành Công",
+                    'message' => "Chia sẻ thành công",
                 ]);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Email Người Nhận Không Có Trong Hệ Thống",
+                    'message' => "Người dùng không tồn tsij trong hệ thống",
                 ]);
             }
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra",
+                'message' => "Có lỗi xảy ra",
             ]);
         }
     }
@@ -81,18 +81,18 @@ class NftGuiDenController extends Controller
                 }
                 return response()->json([
                     'status'    => true,
-                    'message'   => 'Đã Xóa Thành Công'
+                    'message'   => 'Xóa thành công'
                 ]);
             } else {
                 return response()->json([
                     'status'    => false,
-                    'message'   => 'Có Lỗi Xảy Ra'
+                    'message'   => 'Có lỗi xảy ra'
                 ]);
             }
         } catch (\Exception $e) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Có Lỗi Xảy Ra'
+                'message'   => 'Có lỗi xảy ra'
             ]);
         }
     }

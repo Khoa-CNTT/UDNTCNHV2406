@@ -76,18 +76,18 @@ class ThongBaoController extends Controller
                 }
 
                 return response()->json([
-                    'message' => 'Tạo Thông Báo Thành Công.',
+                    'message' => 'Thông báo đã được gửi thành công',
                     'status' => true
                 ]);
             } else {
                 return response()->json([
-                    'message' => 'Tạo Thông Báo Thất Bại.',
+                    'message' => 'Có lỗi xảy ra',
                     'status' => false
                 ]);
             }
         } catch (\Exception $e) {
             return response()->json([
-                'message'  =>   'Tạo Thông Báo Thất Bại.',
+                'message'  =>   'Có lỗi xảy ra',
                 'status'   =>   false
             ]);
         }

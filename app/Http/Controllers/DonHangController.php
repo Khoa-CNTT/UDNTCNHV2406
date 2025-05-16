@@ -76,7 +76,7 @@ class DonHangController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }

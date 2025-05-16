@@ -29,7 +29,7 @@ class ToChucCapChungChiController extends Controller
 
         ]);
         return response()->json([
-            'message'  =>   'Vui lòng đợi duyệt tài khoản, mời bạn đang nhập lại sau.',
+            'message'  =>   'Vui lòng đợi duyệt',
             'status'   =>   true
         ]);
     }
@@ -50,18 +50,18 @@ class ToChucCapChungChiController extends Controller
                 ]);
             } else if ($user->is_duyet == 0) {
                 return response()->json([
-                    'message'  =>   'Vui Lòng Đợi Duyệt Tài Khoản',
+                    'message'  =>   'Vui lòng đợi duyệt',
                     'status'   =>   false
                 ]);
             } else if($user->is_duyet == 2) {
                 return response()->json([
-                    'message'  =>   'Tài Khoản Đã Bị Khóa',
+                    'message'  =>   'Tài khoản đã bị khóa',
                     'status'   =>   false,
                 ]);
             }
         }else{
             return response()->json([
-                'message'  =>   'Sai Thông Tin Đăng Nhập.',
+                'message'  =>   'Sai tài khoản hoặc mật khẩu',
                 'status'   =>   false,
             ]);
         }
@@ -84,7 +84,7 @@ class ToChucCapChungChiController extends Controller
         } else {
             return response()->json([
                 'status'   =>   false,
-                'message'  =>   'Yêu Cầu Đăng Nhập',
+                'message'  =>   'Yêu cầu đăng nhập',
             ]);
         }
     }
@@ -149,12 +149,12 @@ class ToChucCapChungChiController extends Controller
             ]);
             return response()->json([
                 'status' => true,
-                'message' => "Cập Nhật Thông Tin Thành Công"
+                'message' => "Cập nhật thành công"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -169,18 +169,18 @@ class ToChucCapChungChiController extends Controller
                 ]);
                 return response()->json([
                     'status' => true,
-                    'message' => "Đổi Mật Khẩu Thành Công"
+                    'message' => "Đổi mật khẩu thành công"
                 ]);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Mật Khẩu Hiện Cũ Sai"
+                    'message' => "Mật khẩu cũ sai"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -193,12 +193,12 @@ class ToChucCapChungChiController extends Controller
             Mail::to($request->email)->send(new ToChucQuenMatKhau($check->hash_reset, $check->ten_to_chuc));
             return response()->json([
                 'status' => true,
-                'message' => "Kiểm Tra Email"
+                'message' => "Kiểm tra email"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -211,12 +211,12 @@ class ToChucCapChungChiController extends Controller
             $check->save();
             return response()->json([
                 'status' => true,
-                'message' => "Mật Khẩu Đã Được Đổi Thành Công"
+                'message' => "Đổi mật khẩu thành công"
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có Lỗi Xảy Ra"
+                'message' => "Có lỗi xảy ra"
             ]);
         }
     }
@@ -234,12 +234,12 @@ class ToChucCapChungChiController extends Controller
 
             return response()->json([
                 'status'    =>   true,
-                'message'   =>   'Đã đổi trạng thái học viên ' . $tochuc->ho_ten . '!',
+                'message'   =>   'Đổi trạng thái thành công',
             ]);
         } else {
             return response()->json([
                 'status'    =>   false,
-                'message'   =>   'Không tìm được học viên để cập nhật!'
+                'message'   =>   'Có lỗi xảy ra'
             ]);
         }
     }
