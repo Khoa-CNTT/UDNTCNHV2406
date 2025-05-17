@@ -6,23 +6,25 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class GuiYeuCauRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'so_hieu_chung_chi'    => 'required',
+            'id_to_chuc'           => 'required',
+        ];
+    }
+    
+    public function messages(): array
+    {
+        return [
+            'so_hieu_chung_chi.required'    => 'Vui lòng nhập số hiệu chứng chỉ.',
+            'id_to_chuc.required'           => 'Vui lòng chọn tổ chức.',
         ];
     }
 }
