@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DangKyToChucRequest;
+use App\Http\Requests\DangNhapToChucRequest;
 use App\Mail\ToChucQuenMatKhau;
 use App\Models\ChiTietCapQuyen;
 use App\Models\ToChucCapChungChi;
@@ -13,7 +15,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 class ToChucCapChungChiController extends Controller
 {
-    public function dangKy(Request $request)
+    public function dangKy(DangKyToChucRequest $request)
     {
         ToChucCapChungChi::create([
             'email' => $request->email,
@@ -33,7 +35,7 @@ class ToChucCapChungChiController extends Controller
             'status'   =>   true
         ]);
     }
-    public function dangNhap(Request $request)
+    public function dangNhap(DangNhapToChucRequest $request)
     {
         $check = Auth::guard('to_chuc_cap_chung_chi')->attempt([
             'email' => $request->email,

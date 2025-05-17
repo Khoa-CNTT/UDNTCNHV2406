@@ -58,7 +58,7 @@ class NftGuiDenController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Người dùng không tồn tsij trong hệ thống",
+                    'message' => "Người dùng không tồn tại trong hệ thống",
                 ]);
             }
         } else {

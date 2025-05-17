@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DangKyNhanVienRequest;
+use App\Http\Requests\DangNhapAdmimRequest;
 use App\Models\Admin;
 
 use Illuminate\Http\Request;
@@ -25,7 +27,7 @@ class AdminController extends Controller
             'data' => $data,
         ]);
     }
-    public function dangKy(Request $request)
+    public function dangKy(DangKyNhanVienRequest $request)
     {
         $id_chuc_nang = 1;
         $user = $this->isUserAdmin();
@@ -54,14 +56,16 @@ class AdminController extends Controller
             'status'   =>   true
         ]);
     }
-    public function dangNhap(Request $request)
+    public function dangNhap(DangNhapAdmimRequest $request)
     {
         $check = Auth::guard('admin')->attempt([
-            'email' => $request->email,
+            'email'    => $request->email,
             'password' => $request->password,
         ]);
+
         if ($check) {
             $user = Auth::guard('admin')->user();
+
             if ($user->is_duyet == 1) {
                 return response()->json([
                     'message'  =>   'Đăng nhập thành công.',
@@ -81,7 +85,13 @@ class AdminController extends Controller
                 'status'   =>   false,
             ]);
         }
+
+        return response()->json([
+            'message' => 'Sai Thông Tin Đăng Nhập.',
+            'status'  => false,
+        ]);
     }
+
     public function kiemTraChiaKhoa()
     {
         $check = $this->isUserAdmin();

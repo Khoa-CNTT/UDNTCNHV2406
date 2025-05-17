@@ -65,15 +65,6 @@ class ChungChiController extends Controller
                     'status' => true,
                     'message' => "Vô hiệu hóa thành công"
                 ]);
-            } else if ($chung_chi->tinh_trang == 3) {
-                $chung_chi->tinh_trang = 2;
-                $chung_chi->ghi_chu = null;
-                $chung_chi->save();
-
-                return response()->json([
-                    'status' => true,
-                    'message' => "Mở vô hiệu hóa thành công"
-                ]);
             }
         } else {
             return response()->json([
