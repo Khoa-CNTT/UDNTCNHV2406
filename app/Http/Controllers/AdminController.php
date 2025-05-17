@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DangKyNhanVienRequest;
 use App\Http\Requests\DangNhapAdmimRequest;
 use App\Models\Admin;
 
@@ -26,7 +27,7 @@ class AdminController extends Controller
             'data' => $data,
         ]);
     }
-    public function dangKy(Request $request)
+    public function dangKy(DangKyNhanVienRequest $request)
     {
         $id_chuc_nang = 1;
         $user = $this->isUserAdmin();

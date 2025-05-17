@@ -11,11 +11,6 @@ class ChucVuController extends Controller
 {
     public function getDataChucVu()
     {
-<<<<<<< HEAD
-=======
-        $user = $this->isUserAdmin();
-
->>>>>>> 1abcc2ea33e35f2d993471d0bb213e82f45deb7c
         $data = ChucVu::select()->get();
         return response()->json([
             'data' => $data,
