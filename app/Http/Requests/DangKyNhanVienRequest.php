@@ -23,7 +23,7 @@ class DangKyNhanVienRequest extends FormRequest
              'gioi_tinh' => 'required',
              'email'     => 'required|email|unique:admins,email,' . $this->id,
              'password'  => 'required',
-             'ngay_sinh' => 'required|date|before:today',
+             'ngay_sinh' => 'required|before:today',
              'dia_chi'   => 'required',
 
         ];
@@ -44,13 +44,12 @@ class DangKyNhanVienRequest extends FormRequest
 
         'email.required'        => 'Vui lòng nhập email.',
         'email.email'           => 'Email không đúng định dạng.',
-        'email.unique'          => 'Email đã được sử dụng.',
+        'email.unique'          => 'Email đã tồn tại.',
 
         'password.required'     => 'Vui lòng nhập mật khẩu.',
 
         'ngay_sinh.required'    => 'Vui lòng nhập ngày sinh.',
-        'ngay_sinh.date'        => 'Ngày sinh không hợp lệ.',
-        'ngay_sinh.before'      => 'Ngày sinh phải trước ngày hiện tại.',
+        'ngay_sinh.before'      => 'Ngày sinh phải nhỏ ngày hiện tại.',
 
         'dia_chi.required'      => 'Vui lòng nhập địa chỉ.',
     ];
