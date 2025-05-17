@@ -17,7 +17,7 @@ class DangKyToChucRequest extends FormRequest
             'email'                 => 'required|email',
             'password'              => 'required',
             'ten_to_chuc'           => 'required',
-            'hotline'               => 'required|digits:10',
+            'hotline'               => 'required',
             'dia_chi'               => 'required',
             'ho_ten_nguoi_dai_dien' => 'required',
             'so_cccd'               => 'required',
@@ -67,15 +67,22 @@ class DangKyToChucRequest extends FormRequest
         return [
             'email.required'                 => 'Vui lòng nhập email tổ chức.',
             'email.email'                    => 'Email tổ chức không đúng định dạng.',
+
             'password.required'              => 'Vui lòng nhập mật khẩu.',
+
             'ten_to_chuc.required'           => 'Vui lòng nhập tên tổ chức.',
-            'hotline.required'               => 'Vui lòng nhập số hotline.',
-            'hotline.digits'                 => 'Hotline phải có đúng 10 chữ số.',
+
+            'hotline.required'               => 'Vui lòng nhập hotline.',
+
             'dia_chi.required'               => 'Vui lòng nhập địa chỉ.',
+
             'ho_ten_nguoi_dai_dien.required' => 'Vui lòng nhập họ tên người đại diện.',
+
             'so_cccd.required'               => 'Vui lòng nhập số CCCD.',
+
             'sdt_nguoi_dai_dien.required'    => 'Vui lòng nhập số điện thoại người đại diện.',
             'sdt_nguoi_dai_dien.digits'      => 'Số điện thoại người đại diện phải có đúng 10 chữ số.',
+
             'email_nguoi_dai_dien.required'  => 'Vui lòng nhập email người đại diện.',
             'email_nguoi_dai_dien.email'     => 'Email người đại diện không đúng định dạng.',
         ];
