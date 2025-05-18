@@ -89,6 +89,7 @@ Route::get('/to-chuc/dang-xuat-all', [ToChucCapChungChiController::class,'dangXu
 Route::get('/to-chuc/dang-xuat', [ToChucCapChungChiController::class,'dangXuat']);
 Route::get('/to-chuc/profile', [ToChucCapChungChiController::class,'Profile']);
 Route::post('/to-chuc/update-profile', [ToChucCapChungChiController::class,'updateProfile']);
+Route::post('/to-chuc/chon-avt', [ToChucCapChungChiController::class,'chonAvt']);
 Route::post('/to-chuc/update-mat-khau', [ToChucCapChungChiController::class,'updateMatKhau']);
 Route::post('/to-chuc/quen-mat-khau', [ToChucCapChungChiController::class, 'actionQuenmatKhau']);
 Route::post('/to-chuc/lay-lai-mat-khau/{hash_reset}', [ToChucCapChungChiController::class, 'actionLayLaiMatKhau']);

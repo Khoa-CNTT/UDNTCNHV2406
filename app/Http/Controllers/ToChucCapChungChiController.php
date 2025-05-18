@@ -135,6 +135,24 @@ class ToChucCapChungChiController extends Controller
             'data' => $data,
         ]);
     }
+    public function chonAvt(Request $request)
+    {
+        $check = $this->isUserToChucCapChungChi();
+        if ($check) {
+            ToChucCapChungChi::where('id', $check->id)->update([
+                'hinh_anh' => $request->hinh_anh,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => "Cập nhật thành công"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra"
+            ]);
+        }
+    }
     public function updateProfile(Request $request)
     {
         $check = Auth::guard('sanctum')->user();

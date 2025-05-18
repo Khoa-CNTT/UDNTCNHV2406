@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GuiYeuCauRequest;
 use App\Models\HocVien;
 use App\Models\ViNft;
 use App\Models\YeuCauCap;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class YeuCauCapController extends Controller
 {
-    public function guiYeuCauCap(Request $request)
+    public function guiYeuCauCap(GuiYeuCauRequest $request)
     {
         $check = $this->isUserHocVien();
         if ($check) {
@@ -19,7 +20,7 @@ class YeuCauCapController extends Controller
                 ->whereNotNull('dia_chi_vi')->first();
             if ($vi_nft) {
                 $yeuCauCap = YeuCauCap::create([
-                    'id_to_chuc' => $request->id_to_chuc,
+                    'id_to_chuc'     => $request->id_to_chuc,
                     'id_hoc_vien' => $check->id,
                     'ho_ten' => $check->ho_ten,
                     'so_cccd' => $check->so_cccd,
