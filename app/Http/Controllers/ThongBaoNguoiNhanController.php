@@ -26,7 +26,7 @@ class ThongBaoNguoiNhanController extends Controller
         } else if ($to_chuc) {
             $data = ThongBaoNguoiNhan::join('thong_baos', 'thong_bao_nguoi_nhans.id_thong_bao', 'thong_baos.id')
                 ->where('thong_bao_nguoi_nhans.id_to_chuc', $check->id)
-                ->select('thong_baos.tieu_de', 'thong_baos.noi_dung', 'thong_baos.created_at')
+                ->select('thong_bao_nguoi_nhans.*', 'thong_baos.tieu_de', 'thong_baos.noi_dung', 'thong_baos.created_at')
                 ->get();
             return response()->json([
                 'data' => $data,
