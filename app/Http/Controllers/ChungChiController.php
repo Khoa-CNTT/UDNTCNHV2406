@@ -214,7 +214,7 @@ public function createCapNft(Request $request)
     // Chuẩn metadata chuẩn OpenSea
     $metadata = [
         "name"        => "Chứng chỉ khóa học - " . $request->ho_ten,
-        "description" => "Chứng chỉ số cho học viên {$request->ho_ten} tốt nghiệp khóa học {$request->khoa_hoc}.",
+        "description" => "Chứng chỉ số cho học viên {$request->ho_ten} đã tốt nghiệp .",
         "image"       => $request->hinh_anh,
         "external_url"=> null,
         "attributes"  => [
