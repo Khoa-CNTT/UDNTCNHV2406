@@ -3352,16 +3352,16 @@
         },
         {
             "name": "shuchkin/simplexlsx",
-            "version": "1.1.13",
+            "version": "1.1.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shuchkin/simplexlsx.git",
-                "reference": "71a5e3d40d14e33161f8a40b3fd02de542218ef0"
+                "reference": "00006719a4d5df6426fa86c6586a5804941e8c38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shuchkin/simplexlsx/zipball/71a5e3d40d14e33161f8a40b3fd02de542218ef0",
-                "reference": "71a5e3d40d14e33161f8a40b3fd02de542218ef0",
+                "url": "https://api.github.com/repos/shuchkin/simplexlsx/zipball/00006719a4d5df6426fa86c6586a5804941e8c38",
+                "reference": "00006719a4d5df6426fa86c6586a5804941e8c38",
                 "shasum": ""
             },
             "require": {
@@ -3400,9 +3400,9 @@
             ],
             "support": {
                 "issues": "https://github.com/shuchkin/simplexlsx/issues",
-                "source": "https://github.com/shuchkin/simplexlsx/tree/1.1.13"
+                "source": "https://github.com/shuchkin/simplexlsx/tree/1.1.14"
             },
-            "time": "2024-12-21T13:32:13+00:00"
+            "time": "2025-05-21T14:34:33+00:00"
         },
         {
             "name": "symfony/clock",
