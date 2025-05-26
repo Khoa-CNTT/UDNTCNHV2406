@@ -242,6 +242,15 @@ class ToChucCapChungChiController extends Controller
     }
     public function doiTrangThai(Request $request)
     {
+         $id_chuc_nang = 2;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
         $tochuc = ToChucCapChungChi::where('id', $request->id)->first();
 
         if ($tochuc) {

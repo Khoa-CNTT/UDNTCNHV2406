@@ -37,10 +37,6 @@ class ChiTietCapQuyenSeeder extends Seeder
                 'id_chuc_vu'             =>    1,
                 'id_chuc_nang'             =>  6,
             ],
-            [
-                'id_chuc_vu'             =>    1,
-                'id_chuc_nang'             =>  7,
-            ],
         ]);
     }
 }

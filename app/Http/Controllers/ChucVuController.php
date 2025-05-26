@@ -19,7 +19,7 @@ class ChucVuController extends Controller
 
     public function createDataChucVu(Request $request)
     {
-        $id_chuc_nang = 5;
+        $id_chuc_nang = 4;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -40,7 +40,7 @@ class ChucVuController extends Controller
 
     public function deleteChucVu($id)
     {
-        $id_chuc_nang = 6;
+        $id_chuc_nang = 4;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
@@ -67,7 +67,15 @@ class ChucVuController extends Controller
     }
     public function UpateChucVu(Request $request)
     {
-
+        $id_chuc_nang = 4;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
         $ten_chuc_vu = ChucVu::where('id', $request->id)->first();
         if ($ten_chuc_vu) {
             $ten_chuc_vu->update([

@@ -13,6 +13,15 @@ class ThongBaoController extends Controller
 {
     public function guiThongBao(Request $request)
     {
+        $id_chuc_nang = 5;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
         try {
             $tb = ThongBao::create([
                 'tieu_de' => $request->tieu_de,

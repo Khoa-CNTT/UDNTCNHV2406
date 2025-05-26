@@ -24,6 +24,6 @@ class HocVienQuenMatKhau extends Mailable
     public function build()
     {
         return $this->subject("Lấy lại mật khẩu NFT CERTIFICATE")
-            ->view('mail_hoc_ vien_quen_mat_khau', ['hash_reset' => $this->hash_reset, 'name' => $this->name]);
+            ->view('mail_hoc_vien_quen_mat_khau', ['hash_reset' => $this->hash_reset, 'name' => $this->name]);
     }
 }

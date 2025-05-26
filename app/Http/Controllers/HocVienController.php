@@ -233,7 +233,7 @@ class HocVienController extends Controller
             $check->save();
             return response()->json([
                 'status' => true,
-                'message' => "Đổi mật khẩu thành công"
+                'message' => "Đổi mật khẩu thành công, chuyển về trang đăng nhập sau 10s"
             ]);
         } else {
             return response()->json([
@@ -245,6 +245,15 @@ class HocVienController extends Controller
 
     public function doiTrangThaiHocVien(Request $request)
     {
+         $id_chuc_nang = 2;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
         $hocvien = HocVien::where('id', $request->id)->first();
 
         if ($hocvien) {

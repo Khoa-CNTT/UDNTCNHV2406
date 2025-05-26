@@ -17,22 +17,19 @@ class ChucNangSeeder extends Seeder
                 'ten_chuc_nang'             =>  'Thêm tài khoản nhân viên',
             ],
             [
-                'ten_chuc_nang'             =>  'Đổi trạng thái tài khoản nhân viên',
+                'ten_chuc_nang'             =>  'Đổi trạng thái tài khoản',
             ],
             [
                 'ten_chuc_nang'             =>  'Phân quyền',
             ],
             [
-                'ten_chuc_nang'             =>  'Xóa quyền',
+                'ten_chuc_nang'             =>  'Quản lý chức vụ',
             ],
             [
-                'ten_chuc_nang'             =>  'Thêm chức vụ',
+                'ten_chuc_nang'             =>  'Gửi thông báo',
             ],
             [
-                'ten_chuc_nang'             =>  'Xóa chức vụ',
-            ],
-            [
-                'ten_chuc_nang'             =>  'Cập nhật chức vụ',
+                'ten_chuc_nang'             =>  'Mint NFT',
             ],
         ]);
     }

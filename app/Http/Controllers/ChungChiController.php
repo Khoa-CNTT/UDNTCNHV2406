@@ -197,6 +197,15 @@ class ChungChiController extends Controller
 
 public function createCapNft(Request $request)
 {
+     $id_chuc_nang = 6;
+        $user = $this->isUserAdmin();
+        $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
+        if (!$checkQuyen) {
+            return response()->json([
+                'message'  =>   'Bạn chưa được cấp quyền này',
+                'status'   =>   false,
+            ]);
+        }
     $this->isUserAdmin();
 
     $sinh_vien = HocVien::where('hoc_viens.id', $request->id_hoc_vien)

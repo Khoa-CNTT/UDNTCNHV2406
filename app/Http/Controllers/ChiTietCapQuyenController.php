@@ -53,7 +53,7 @@ class ChiTietCapQuyenController extends Controller
     }
     public function destroy(Request $request)
     {
-        $id_chuc_nang = 4;
+        $id_chuc_nang = 3;
         $user = $this->isUserAdmin();
         $checkQuyen = ChiTietCapQuyen::where('id_chuc_vu', $user->id_chuc_vu)->where('id_chuc_nang', $id_chuc_nang)->first();
         if (!$checkQuyen) {
