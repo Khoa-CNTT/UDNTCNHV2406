@@ -254,6 +254,7 @@ class HocVienController extends Controller
                 'status'   =>   false,
             ]);
         }
+
         $hocvien = HocVien::where('id', $request->id)->first();
 
         if ($hocvien) {
