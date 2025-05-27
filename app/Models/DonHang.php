@@ -19,14 +19,14 @@ class DonHang extends Model
         'email',
         'id_hoc_vien'
     ];
-     public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format('H:i d/m/Y');
-    }
+    public function getCreatedAtAttribute($value)
+{
+    return Carbon::parse($value)->setTimezone('Asia/Ho_Chi_Minh')->format('H:i:s d/m/Y');
+}
     public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format('H:i d/m/Y');
-    }
+{
+    return Carbon::parse($value)->setTimezone('Asia/Ho_Chi_Minh')->format('H:i:s d/m/Y');
+}
     public function chiTiet()
     {
         return $this->hasMany(ChiTietDonHang::class, 'id_don_hang');

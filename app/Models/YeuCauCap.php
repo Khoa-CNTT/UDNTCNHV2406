@@ -20,8 +20,10 @@ class YeuCauCap extends Model
         'so_hieu_chung_chi',
         'trang_thai'
     ];
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format('H:i d/m/Y');
-    }
+public function getCreatedAtAttribute($value)
+{
+    return Carbon::parse($value)->setTimezone('Asia/Ho_Chi_Minh')->format('H:i:s d/m/Y');
+}
+
+
 }

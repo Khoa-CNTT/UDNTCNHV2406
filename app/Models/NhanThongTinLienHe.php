@@ -17,7 +17,7 @@ class NhanThongTinLienHe extends Model
         'noi_dung',
     ];
     public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format('H:i d/m/Y');
-    }
+{
+    return Carbon::parse($value)->setTimezone('Asia/Ho_Chi_Minh')->format('H:i:s d/m/Y');
+}
 }

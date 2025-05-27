@@ -21,7 +21,7 @@ class ThongBao extends Authenticatable
         'id_to_chuc'
     ];
     public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format('H:i d/m/Y');
-    }
+{
+    return Carbon::parse($value)->setTimezone('Asia/Ho_Chi_Minh')->format('H:i:s d/m/Y');
+}
 }
